@@ -87,6 +87,8 @@
 }
 
 .intro__message {
+  @include slide($dir: up, $value: 15px);
+
   flex: none;
   width: 50.9rem;
   max-width: 50%;

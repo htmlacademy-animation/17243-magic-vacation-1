@@ -67,6 +67,11 @@
   }
 
   &.swiper-slide {
+    @include slide($dir: right, $value: 15px);
+    @include slide($dir: down, $value: 15px);
+    @include slide($dir: left, $value: 15px);
+    @include slide($dir: up, $value: 15px);
+
     &-active {
       #{$slider-item}-title {
         animation-name: slideUp, fadeIn;
