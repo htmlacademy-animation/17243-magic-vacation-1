@@ -58,3 +58,27 @@
   left: 50%;
   transform: translate(-50%, -50%);
 }
+
+@function capitalize($string) {
+  @return to-upper-case(str-slice($string, 1, 1)) + str-slice($string, 2);
+}
+
+@mixin slide($dir, $value) {
+  @keyframes slide#{capitalize($dir)} {
+    from {
+      @if $dir == right {
+        transform: translateX(#{$value});
+      } @else if $dir == down {
+        transform: translateY(-#{$value});
+      } @else if $dir == left {
+        transform: translateX(-#{$value});
+      } @else if $dir == up {
+        transform: translateY(#{$value});
+      }
+    }
+
+    to {
+      transform: translateY(0);
+    }
+  }
+}
