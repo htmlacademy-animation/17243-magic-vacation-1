@@ -87,7 +87,7 @@
 }
 
 .intro__message {
-  @include slide($dir: up, $value: 15px);
+  @include slide($dir: right, $value: 15px);
 
   flex: none;
   width: 50.9rem;
@@ -95,8 +95,10 @@
   text-transform: uppercase;
   font-size: 2.4rem;
   line-height: 1.27;
-  animation-name: slideUp, fadeIn;
-  animation-duration: 0.75s, 2s;
+  animation-name: slideRight, fadeIn;
+  animation-delay: 0.5s;
+  animation-fill-mode: both;
+  animation-duration: 0.75s, 1.5s;
 
   @media (min-width: $stop-scaling) {
     width: 509px;

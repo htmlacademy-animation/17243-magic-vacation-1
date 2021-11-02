@@ -36,7 +36,8 @@
   "scripts": {
     "editorconfig": "editorconfig-cli",
     "stylelint": "stylelint \"source/scss/**/*.scss\" --syntax scss",
-    "test": "npm run editorconfig && npm run stylelint && eslint source/js/",
+    "eslint": "eslint --fix --ext .js source/js/",
+    "test": "npm run editorconfig && npm run stylelint && npm run eslint",
     "build": "webpack",
     "webp": "gulp webp",
     "sprite": "gulp sprite",

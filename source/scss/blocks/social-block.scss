@@ -11,13 +11,17 @@
 .social-block__toggler {
   @include btn-reset;
   position: relative;
-  display: block;
+  display: none;
   width: 4rem;
   height: 4rem;
   color: $c-dark;
   border-radius: 50%;
   transition: $transition;
   transition-property: color;
+
+  .is-loaded & {
+    display: block;
+  }
 
   @media (max-width: $tablet) and (orientation: portrait) {
     display: none;
@@ -40,6 +44,15 @@
     z-index: -1;
     transition: $transition;
     transition-property: width, height, border-color, background-color;
+    animation-name: scaleUp;
+    animation-duration: 0.5s;
+    animation-timing-function: cubic-bezier(.52,-0.11,.42,1.54);
+    animation-fill-mode: forwards;
+    animation-play-state: paused;
+
+    .is-loaded & {
+      animation-play-state: running;
+    }
   }
 
   svg {
@@ -82,6 +95,20 @@
       height: 100%;
       background-color: $c-purple;
       border-color: $c-purple;
+    }
+  }
+
+  @keyframes scaleUp {
+    from {
+      transform: translate(-50%, -50%) scale(0);
+    }
+
+    85% {
+      transform: translate(-50%, -50%) scale(1.15);
+    }
+
+    to {
+      transform: translate(-50%, -50%) scale(1);
     }
   }
 }

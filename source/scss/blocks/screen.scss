@@ -39,6 +39,8 @@
 }
 
 .screen__footer {
+  @include slide($dir: up, $value: 15px);
+
   position: absolute;
   bottom: 0;
   left: 0;
@@ -46,6 +48,14 @@
   color: $c-dark;
   background-color: $c-light;
   z-index: 1;
+  animation-name: slideUp, fadeIn;
+  animation-duration: 0.5s, 0.75s;
+  animation-fill-mode: forwards;
+  animation-play-state: paused;
+
+  .is-loaded & {
+    animation-play-state: running;
+  }
 
   @media (max-width: $tablet) and (orientation: portrait) {
     width: 3.5rem;

@@ -27,14 +27,24 @@
 }
 
 .page-header__logo {
+  @include slide($dir: left, $value: 15px);
   @include hover;
+
   position: relative;
   flex: none;
   top: -0.5rem;
-  display: block;
   padding: 1rem 0;
   width: 10rem;
   color: $c-light;
+  opacity: 0;
+  animation-name: slideLeft, fadeIn;
+  animation-duration: 0.5s, 0.75s;
+  animation-fill-mode: forwards;
+  animation-play-state: paused;
+
+  .is-loaded & {
+    animation-play-state: running;
+  }
 
   @media (min-width: $stop-scaling) {
     top: -5px;
@@ -198,6 +208,14 @@
     @include list-reset;
     display: flex;
     align-items: center;
+    animation-name: fadeIn;
+    animation-duration: 0.5s;
+    animation-timing-function: cubic-bezier(.52,-0.11,.42,1.54);
+    animation-play-state: paused;
+
+    .is-loaded & {
+      animation-play-state: running;
+    }
 
     @media (max-width: $tablet) and (orientation: portrait) {
       flex-direction: column;
@@ -276,21 +294,25 @@
       }
 
       &::after {
-        left: 0;
-        right: auto;
-        width: 100%;
-        opacity: 1;
-
         @media (min-width: $tablet) {
           background-color: $c-purple;
         }
       }
     }
 
-    &.active {
+    &:hover,
+    &:focus,
+    .is-loaded &.active {
       &::after {
+        left: 0;
+        right: auto;
         width: 100%;
         opacity: 1;
+      }
+    }
+
+    .is-loaded &.active {
+      &::after {
         background-color: $c-light;
 
         @media (max-width: $mobile) {
