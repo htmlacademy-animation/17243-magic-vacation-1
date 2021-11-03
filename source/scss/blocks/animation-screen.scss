@@ -1,14 +1,14 @@
 .animation-screen {
   position: fixed;
   display: flex;
-  justify-content: center;
   align-items: center;
+  justify-content: center;
   width: 100%;
   height: 100%;
   background-image: url("../img/scene.png");
   background-repeat: no-repeat;
-  background-size: 100% auto;
   background-position: center;
+  background-size: 100% auto;
 
   @include retina {
     background-image: url("../img/scene@2x.png");

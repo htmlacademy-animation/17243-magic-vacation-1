@@ -17,11 +17,11 @@
   ul {
     @include list-reset;
     display: flex;
-    justify-content: center;
     align-items: center;
-    text-transform: uppercase;
+    justify-content: center;
     font-size: 1.2rem;
     line-height: 1.2;
+    text-transform: uppercase;
 
     @media (min-width: $stop-scaling) {
       font-size: 12px;
@@ -55,10 +55,10 @@
     }
 
     &::before {
-      content: "/";
       position: absolute;
       top: 50%;
       left: 0;
+      content: "/";
       transform: translate(-50%, -50%);
     }
 
@@ -72,10 +72,10 @@
   a {
     @include hover;
     display: inline-block;
-    vertical-align: top;
     padding: 0.9rem 0 0.7rem;
-    text-decoration: underline;
     color: inherit;
+    text-decoration: underline;
+    vertical-align: top;
 
     @media (min-width: $stop-scaling) {
       padding: 9px 0 7px;

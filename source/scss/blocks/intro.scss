@@ -1,10 +1,10 @@
 .intro {
   display: flex;
   flex-direction: column;
-  justify-content: space-between;
   flex-grow: 1;
-  padding: 15.5rem 0 10rem;
+  justify-content: space-between;
   width: 100%;
+  padding: 15.5rem 0 10rem;
 
   @media (min-width: $stop-scaling) {
     padding: 155px 0 100px;
@@ -24,13 +24,13 @@
 }
 
 .intro__title {
-  margin: 0;
   max-width: 99rem;
-  text-transform: uppercase;
+  margin: 0;
   font-family: $font-alt;
-  font-weight: 400;
   font-size: 12rem;
-  line-height: 0.906;
+  font-weight: 400;
+  line-height: 0.9;
+  text-transform: uppercase;
   letter-spacing: -0.04em;
 
   @media (min-width: $stop-scaling) {
@@ -94,13 +94,13 @@
   flex: none;
   width: 50.9rem;
   max-width: 50%;
-  text-transform: uppercase;
   font-size: 2.4rem;
   line-height: 1.27;
+  text-transform: uppercase;
   animation-name: #{$component-name}_slideRight, fadeIn;
+  animation-duration: 0.75s, 1.5s;
   animation-delay: 0.5s;
   animation-fill-mode: both;
-  animation-duration: 0.75s, 1.5s;
 
   @media (min-width: $stop-scaling) {
     width: 509px;
@@ -144,15 +144,15 @@
 }
 
 .intro__label {
-  margin: 0 0 1.6rem;
   max-width: 25rem;
-  text-transform: uppercase;
+  margin: 0 0 1.6rem;
   font-size: 2.4rem;
   line-height: 1.2;
+  text-transform: uppercase;
 
   @media (min-width: $stop-scaling) {
-    margin: 0 0 16px;
     width: 250px;
+    margin: 0 0 16px;
     font-size: 24px;
   }
 }
@@ -160,9 +160,9 @@
 .intro__date {
   margin: 0 0 0 -0.5rem;
   font-family: $font-alt;
-  font-weight: 400;
   font-size: 4.8rem;
-  line-height: 0.906;
+  font-weight: 400;
+  line-height: 0.9;
   letter-spacing: -0.04em;
 
   @media (min-width: $stop-scaling) {

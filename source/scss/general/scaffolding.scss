@@ -1,7 +1,9 @@
 :root {
+  // stylelint-disable-next-line number-max-precision
   font-size: 0.69445vw;
 
   @media (max-width: $tablet) and (orientation: portrait) {
+    // stylelint-disable-next-line number-max-precision
     font-size: 3.125vw;
 
     @media (min-width: $mobile) {
@@ -30,17 +32,17 @@ html {
 
 body {
   position: relative;
-  margin: 0;
-  padding: 0;
   min-width: 320px;
   min-height: 100vh;
+  padding: 0;
+  margin: 0;
+  overflow: hidden;
   font-family: $font;
   font-size: 1.8rem;
-  line-height: 1.1;
   font-weight: 600;
+  line-height: 1.1;
   color: $c-light;
   background-color: $c-dark;
-  overflow: hidden;
 
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
@@ -70,8 +72,8 @@ a {
 }
 
 img {
-  height: auto;
   max-width: 100%;
+  height: auto;
   vertical-align: top;
 }
 
@@ -79,8 +81,8 @@ img {
   position: absolute;
   top: 0;
   left: 0;
-  opacity: 0;
   z-index: -100;
+  opacity: 0;
 }
 
 .hidden {
@@ -89,13 +91,13 @@ img {
 
 .visually-hidden {
   position: absolute;
-  margin: -1px;
-  padding: 0;
   width: 1px;
   height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0 0 0 0);
+  clip-path: inset(100%);
   white-space: nowrap;
   border: 0;
-  clip-path: inset(100%);
-  clip: rect(0 0 0 0);
-  overflow: hidden;
 }
