@@ -63,15 +63,18 @@
   @return to-upper-case(str-slice($string, 1, 1)) + str-slice($string, 2);
 }
 
-@mixin slide($dir, $value) {
-  @keyframes slide#{capitalize($dir)} {
+@mixin slide($dir, $value, $name-prefix) {
+  @keyframes #{$name-prefix}_slide#{capitalize($dir)} {
     from {
       @if $dir == right {
         transform: translateX(#{$value});
+        // stylelint-disable-next-line at-rule-empty-line-before, block-closing-brace-newline-after
       } @else if $dir == down {
         transform: translateY(-#{$value});
+        // stylelint-disable-next-line at-rule-empty-line-before, block-closing-brace-newline-after
       } @else if $dir == left {
         transform: translateX(-#{$value});
+        // stylelint-disable-next-line at-rule-empty-line-before, block-closing-brace-newline-after
       } @else if $dir == up {
         transform: translateY(#{$value});
       }

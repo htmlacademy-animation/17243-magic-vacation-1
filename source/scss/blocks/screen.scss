@@ -39,7 +39,9 @@
 }
 
 .screen__footer {
-  @include slide($dir: up, $value: 15px);
+  $component-name: #{str-slice(#{&}, 2)};
+
+  @include slide($dir: up, $value: 15px, $name-prefix: $component-name);
 
   position: absolute;
   bottom: 0;
@@ -48,7 +50,7 @@
   color: $c-dark;
   background-color: $c-light;
   z-index: 1;
-  animation-name: slideUp, fadeIn;
+  animation-name: #{$component-name}_slideUp, fadeIn;
   animation-duration: 0.5s, 0.75s;
   animation-fill-mode: forwards;
   animation-play-state: paused;

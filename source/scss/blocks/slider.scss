@@ -14,6 +14,7 @@
 }
 
 .slider__item {
+  $component-name: #{str-slice(#{&}, 2)};
   $slider-item: &;
 
   display: flex;
@@ -67,30 +68,30 @@
   }
 
   &.swiper-slide {
-    @include slide($dir: right, $value: 15px);
-    @include slide($dir: down, $value: 15px);
-    @include slide($dir: left, $value: 15px);
-    @include slide($dir: up, $value: 15px);
+    @include slide($dir: right, $value: 15px, $name-prefix: $component-name);
+    @include slide($dir: down, $value: 15px, $name-prefix: $component-name);
+    @include slide($dir: left, $value: 15px, $name-prefix: $component-name);
+    @include slide($dir: up, $value: 15px, $name-prefix: $component-name);
 
     &-active {
       #{$slider-item}-title {
-        animation-name: slideUp, fadeIn;
+        animation-name: #{$component-name}_slideUp, fadeIn;
         animation-duration: 0.75s, 1s;
         animation-fill-mode: both;
 
         @media (max-width: $mobile) {
-          animation-name: slideDown, fadeIn;
+          animation-name: #{$component-name}_slideDown, fadeIn;
           animation-duration: 0.85s, 1.15s;
         }
       }
 
       #{$slider-item}-text {
-        animation-name: slideLeft, fadeIn;
+        animation-name: #{$component-name}_slideLeft, fadeIn;
         animation-duration: 0.75s, 1s;
         animation-fill-mode: both;
 
         @media (max-width: $mobile) {
-          animation-name: slideUp, fadeIn;
+          animation-name: #{$component-name}_slideUp, fadeIn;
           animation-duration: 0.85s, 1.15s;
         }
       }

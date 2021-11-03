@@ -27,7 +27,9 @@
 }
 
 .page-header__logo {
-  @include slide($dir: left, $value: 15px);
+  $component-name: #{str-slice(#{&}, 2)};
+
+  @include slide($dir: left, $value: 15px, $name-prefix: $component-name);
   @include hover;
 
   position: relative;
@@ -37,7 +39,7 @@
   width: 10rem;
   color: $c-light;
   opacity: 0;
-  animation-name: slideLeft, fadeIn;
+  animation-name: #{$component-name}_slideLeft, fadeIn;
   animation-duration: 0.5s, 0.75s;
   animation-fill-mode: forwards;
   animation-play-state: paused;
@@ -82,6 +84,8 @@
 }
 
 .page-header__toggler {
+  $component-name: #{str-slice(#{&}, 2)};
+
   @include btn-reset;
   position: relative;
   display: none;
@@ -91,13 +95,26 @@
   background-color: $c-light;
   border-radius: 50%;
   z-index: 1;
+  animation-name: #{$component-name}_slideUp;
+  animation-duration: 0.5s;
+  animation-timing-function: cubic-bezier(0.52, -0.11, 0.42, 1.54);
+  animation-fill-mode: forwards;
+  animation-play-state: paused;
+
+  .is-loaded & {
+    animation-play-state: running;
+  }
 
   @media (max-width: $tablet) and (orientation: portrait) {
-    display: block;
+    .is-loaded & {
+      display: block;
+    }
   }
 
   @media (max-width: $mobile) and (orientation: landscape) {
-    display: block;
+    .is-loaded & {
+      display: block;
+    }
   }
 
   &::before,
@@ -133,6 +150,20 @@
 
     &::after {
       transform: translate(-50%) rotate(-45deg);
+    }
+  }
+
+  @keyframes #{$component-name}_slideUp {
+    from {
+      transform: scale(0);
+    }
+
+    85% {
+      transform: scale(1.15);
+    }
+
+    to {
+      transform: scale(1);
     }
   }
 }
@@ -210,7 +241,7 @@
     align-items: center;
     animation-name: fadeIn;
     animation-duration: 0.5s;
-    animation-timing-function: cubic-bezier(.52,-0.11,.42,1.54);
+    animation-timing-function: cubic-bezier(0.52, -0.11, 0.42, 1.54);
     animation-play-state: paused;
 
     .is-loaded & {
