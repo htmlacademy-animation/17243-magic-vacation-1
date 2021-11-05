@@ -4,8 +4,8 @@
   width: 100%;
 
   .swiper-wrapper {
-    min-height: 100vh;
     box-sizing: border-box;
+    min-height: 100vh;
 
     @media (max-width: $tablet) and (orientation: portrait) {
       min-height: calc(var(--vh, 1vh) * 100);
@@ -14,12 +14,13 @@
 }
 
 .slider__item {
+  $component-name: #{str-slice(#{&}, 2)};
   $slider-item: &;
 
   display: flex;
   flex-direction: column;
-  padding: 14.6rem 4rem 10rem 9.7rem;
   height: auto;
+  padding: 14.6rem 4rem 10rem 9.7rem;
 
   @media (min-width: $stop-scaling) {
     padding: 146px 40px 100px 97px;
@@ -32,9 +33,9 @@
   }
 
   @media (max-width: $mobile) and (orientation: landscape) {
-    flex-grow: 1;
     display: flex;
     flex-direction: column;
+    flex-grow: 1;
     padding: 5rem 2rem 0 5rem;
   }
 
@@ -67,30 +68,30 @@
   }
 
   &.swiper-slide {
-    @include slide($dir: right, $value: 15px);
-    @include slide($dir: down, $value: 15px);
-    @include slide($dir: left, $value: 15px);
-    @include slide($dir: up, $value: 15px);
+    @include slide($dir: right, $value: 15px, $name-prefix: $component-name);
+    @include slide($dir: down, $value: 15px, $name-prefix: $component-name);
+    @include slide($dir: left, $value: 15px, $name-prefix: $component-name);
+    @include slide($dir: up, $value: 15px, $name-prefix: $component-name);
 
     &-active {
       #{$slider-item}-title {
-        animation-name: slideUp, fadeIn;
+        animation-name: #{$component-name}_slideUp, fadeIn;
         animation-duration: 0.75s, 1s;
         animation-fill-mode: both;
 
         @media (max-width: $mobile) {
-          animation-name: slideDown, fadeIn;
+          animation-name: #{$component-name}_slideDown, fadeIn;
           animation-duration: 0.85s, 1.15s;
         }
       }
 
       #{$slider-item}-text {
-        animation-name: slideLeft, fadeIn;
+        animation-name: #{$component-name}_slideLeft, fadeIn;
         animation-duration: 0.75s, 1s;
         animation-fill-mode: both;
 
         @media (max-width: $mobile) {
-          animation-name: slideUp, fadeIn;
+          animation-name: #{$component-name}_slideUp, fadeIn;
           animation-duration: 0.85s, 1.15s;
         }
       }
@@ -109,11 +110,11 @@
 
 .slider__item-title {
   margin: 0 0 0 -5.5rem;
-  text-transform: uppercase;
   font-family: $font-alt;
-  font-weight: 400;
   font-size: 4.8rem;
-  line-height: 0.906;
+  font-weight: 400;
+  line-height: 0.9;
+  text-transform: uppercase;
   letter-spacing: -0.04em;
 
   @media (min-width: $stop-scaling) {
@@ -133,15 +134,15 @@
 }
 
 .slider__item-text {
+  max-width: 34rem;
   margin-top: 3.6rem;
   margin-bottom: 0;
-  max-width: 34rem;
   font-size: 1.8rem;
   line-height: 2rem;
 
   @media (min-width: $stop-scaling) {
-    margin-top: 36px;
     max-width: 340px;
+    margin-top: 36px;
     font-size: 18px;
     line-height: 20px;
   }
@@ -150,8 +151,8 @@
     display: flex;
     flex-direction: column;
     justify-content: center;
-    margin-top: auto;
     min-height: 11.6rem;
+    margin-top: auto;
     font-size: 1.4rem;
     line-height: 1.5rem;
   }
@@ -160,8 +161,8 @@
     display: flex;
     flex-direction: column;
     justify-content: center;
-    margin-top: auto;
     min-height: 14rem;
+    margin-top: auto;
     font-size: 1.4rem;
     line-height: 1.5rem;
   }
@@ -171,11 +172,11 @@
   position: absolute;
   bottom: 2.8rem;
   left: 50%;
-  transform: translateX(-50%);
+  z-index: 1;
   display: flex;
   justify-content: space-between;
   width: 17rem;
-  z-index: 1;
+  transform: translateX(-50%);
 
   @media (min-width: $stop-scaling) {
     bottom: 28px;
@@ -205,13 +206,13 @@
 
   &::before {
     @include center;
-    content: "";
+    z-index: -1;
     width: 100%;
     height: 100%;
+    content: "";
     background-color: $c-light;
     border: 2px solid $c-light;
     border-radius: 50%;
-    z-index: -1;
   }
 
   svg {
@@ -258,8 +259,8 @@
   }
 
   &.swiper-button-disabled {
-    opacity: 0.5;
     pointer-events: none;
+    opacity: 0.5;
   }
 }
 
@@ -267,14 +268,14 @@
   position: absolute;
   bottom: 2.8rem;
   left: 50%;
-  transform: translateX(-50%);
   width: 9rem;
   height: 4rem;
-  text-align: center;
   font-family: $font-alt;
-  font-weight: 400;
   font-size: 2.4rem;
+  font-weight: 400;
   line-height: 4rem;
+  text-align: center;
+  transform: translateX(-50%);
 
   @media (min-width: $stop-scaling) {
     bottom: 28px;
@@ -285,35 +286,35 @@
   }
 
   @media (orientation: portrait) {
-    width: 100%;
-    left: 0;
     right: 0;
     bottom: 2.1rem;
-    transform: none;
-    margin: 0;
+    left: 0;
+    width: 100%;
     height: 2rem;
+    margin: 0;
+    transform: none;
 
     .swiper-pagination-bullet {
-      margin: 0 0.6rem;
       width: 0.4rem;
       height: 0.4rem;
+      margin: 0 0.6rem;
       background-color: $c-light;
     }
   }
 
   @media (max-width: $mobile) and (orientation: landscape) {
-    width: 100%;
-    left: 0;
     right: 0;
     bottom: 2.1rem;
-    transform: none;
-    margin: 0;
+    left: 0;
+    width: 100%;
     height: 2rem;
+    margin: 0;
+    transform: none;
 
     .swiper-pagination-bullet {
-      margin: 0 0.6rem;
       width: 0.4rem;
       height: 0.4rem;
+      margin: 0 0.6rem;
       background-color: $c-light;
     }
   }

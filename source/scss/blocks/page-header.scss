@@ -1,10 +1,10 @@
 .page-header {
   position: fixed;
   top: 0;
-  left: 0;
   right: 0;
-  padding: 2.7rem 0;
+  left: 0;
   z-index: 10;
+  padding: 2.7rem 0;
 
   @media (min-width: $stop-scaling) {
     padding: 27px 0;
@@ -27,26 +27,38 @@
 }
 
 .page-header__logo {
+  $component-name: #{str-slice(#{&}, 2)};
+
+  @include slide($dir: left, $value: 15px, $name-prefix: $component-name);
   @include hover;
+
   position: relative;
-  flex: none;
   top: -0.5rem;
-  display: block;
-  padding: 1rem 0;
+  flex: none;
   width: 10rem;
+  padding: 1rem 0;
   color: $c-light;
+  opacity: 0;
+  animation-name: #{$component-name}_slideLeft, fadeIn;
+  animation-duration: 0.5s, 0.75s;
+  animation-fill-mode: forwards;
+  animation-play-state: paused;
+
+  .is-loaded & {
+    animation-play-state: running;
+  }
 
   @media (min-width: $stop-scaling) {
     top: -5px;
-    padding: 10px 0;
     width: 113px;
+    padding: 10px 0;
   }
 
   @media (max-width: $tablet) and (orientation: portrait) {
     top: 0;
-    padding: 0.5rem 0;
-    width: 6.8rem;
     z-index: 1;
+    width: 6.8rem;
+    padding: 0.5rem 0;
 
     .page-header--menu-opened & {
       color: $c-dark;
@@ -55,9 +67,9 @@
 
   @media (max-width: $mobile) and (orientation: landscape) {
     top: 0;
-    padding: 0.5rem 0;
-    width: 6.8rem;
     z-index: 1;
+    width: 6.8rem;
+    padding: 0.5rem 0;
 
     .page-header--menu-opened & {
       color: $c-dark;
@@ -72,30 +84,45 @@
 }
 
 .page-header__toggler {
+  $component-name: #{str-slice(#{&}, 2)};
+
   @include btn-reset;
   position: relative;
+  z-index: 1;
   display: none;
   width: 2.5rem;
   height: 2.5rem;
   font-size: 0;
   background-color: $c-light;
   border-radius: 50%;
-  z-index: 1;
+  animation-name: #{$component-name}_slideUp;
+  animation-duration: 0.5s;
+  animation-play-state: paused;
+  animation-timing-function: cubic-bezier(0.52, -0.11, 0.42, 1.54);
+  animation-fill-mode: forwards;
+
+  .is-loaded & {
+    animation-play-state: running;
+  }
 
   @media (max-width: $tablet) and (orientation: portrait) {
-    display: block;
+    .is-loaded & {
+      display: block;
+    }
   }
 
   @media (max-width: $mobile) and (orientation: landscape) {
-    display: block;
+    .is-loaded & {
+      display: block;
+    }
   }
 
   &::before,
   &::after {
-    content: "";
     position: absolute;
     right: 0.8rem;
     height: 1px;
+    content: "";
     background-color: $c-dark;
   }
 
@@ -115,14 +142,28 @@
     &::after {
       top: 50%;
       left: 50%;
-      transform: translate(-50%) rotate(45deg);
       width: 2.6rem;
       height: 2px;
       box-shadow: none;
+      transform: translate(-50%) rotate(45deg);
     }
 
     &::after {
       transform: translate(-50%) rotate(-45deg);
+    }
+  }
+
+  @keyframes #{$component-name}_slideUp {
+    from {
+      transform: scale(0);
+    }
+
+    85% {
+      transform: scale(1.15);
+    }
+
+    to {
+      transform: scale(1);
     }
   }
 }
@@ -134,15 +175,15 @@
   @media (max-width: $tablet) and (orientation: portrait) {
     position: fixed;
     top: 0;
-    left: 0;
     right: 0;
     bottom: 0;
-    transform: translateX(-100%);
+    left: 0;
     flex-direction: column;
     align-items: flex-start;
     padding: 4rem 3.5rem;
     color: $c-dark;
     background-color: $c-light;
+    transform: translateX(-100%);
 
     .page-header--menu-opened & {
       transform: translateX(0);
@@ -152,17 +193,17 @@
   @media (max-width: $mobile) and (orientation: landscape) {
     position: fixed;
     top: 0;
-    left: 0;
     right: 0;
     bottom: 0;
-    transform: translateX(-100%);
+    left: 0;
     flex-direction: column;
     align-items: flex-start;
-    padding: 2rem 3.5rem;
     max-height: calc(var(--vh, 1vh) * 100);
+    padding: 2rem 3.5rem;
+    overflow-y: auto;
     color: $c-dark;
     background-color: $c-light;
-    overflow-y: auto;
+    transform: translateX(-100%);
 
     .page-header--menu-opened & {
       transform: translateX(0);
@@ -172,11 +213,11 @@
 
 .page-header__menu {
   font-family: $font-alt;
-  text-transform: uppercase;
-  font-weight: 400;
   font-size: 1.2rem;
-  line-height: 1.0418;
+  font-weight: 400;
+  line-height: 1.04;
   color: $c-light;
+  text-transform: uppercase;
 
   @media (min-width: $stop-scaling) {
     font-size: 12px;
@@ -198,6 +239,14 @@
     @include list-reset;
     display: flex;
     align-items: center;
+    animation-name: fadeIn;
+    animation-duration: 0.5s;
+    animation-play-state: paused;
+    animation-timing-function: cubic-bezier(0.52, -0.11, 0.42, 1.54);
+
+    .is-loaded & {
+      animation-play-state: running;
+    }
 
     @media (max-width: $tablet) and (orientation: portrait) {
       flex-direction: column;
@@ -239,18 +288,18 @@
   a {
     position: relative;
     display: block;
-    color: inherit;
     padding: 0 0.5em 0.5em;
+    color: inherit;
     transition: $transition;
     transition-property: color;
 
     &::after {
-      content: "";
       position: absolute;
       right: 0;
       bottom: 0;
       width: 0;
       height: 2px;
+      content: "";
       background-color: $c-light;
       opacity: 0;
       transition: $transition;
@@ -269,28 +318,36 @@
     &:focus {
       outline: none;
 
+      // stylelint-disable-next-line max-nesting-depth
       &:not(.active) {
         @media (min-width: $tablet) {
           color: $c-purple;
         }
       }
 
+      // stylelint-disable-next-line max-nesting-depth
       &::after {
-        left: 0;
-        right: auto;
-        width: 100%;
-        opacity: 1;
-
         @media (min-width: $tablet) {
           background-color: $c-purple;
         }
       }
     }
 
-    &.active {
+    &:hover,
+    &:focus,
+    .is-loaded &.active {
+      // stylelint-disable-next-line max-nesting-depth
       &::after {
+        right: auto;
+        left: 0;
         width: 100%;
         opacity: 1;
+      }
+    }
+
+    .is-loaded &.active {
+      // stylelint-disable-next-line max-nesting-depth
+      &::after {
         background-color: $c-light;
 
         @media (max-width: $mobile) {
@@ -309,12 +366,12 @@
   }
 
   @media (max-width: $tablet) and (orientation: portrait) {
-    margin-left: 0;
     width: 100%;
+    margin-left: 0;
   }
 
   @media (max-width: $mobile) and (orientation: landscape) {
-    margin-left: 0;
     width: 100%;
+    margin-left: 0;
   }
 }
