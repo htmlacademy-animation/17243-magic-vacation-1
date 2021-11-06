@@ -346,6 +346,7 @@
     }
 
     .is-loaded &.active {
+      pointer-events: none;
       // stylelint-disable-next-line max-nesting-depth
       &::after {
         background-color: $c-light;
