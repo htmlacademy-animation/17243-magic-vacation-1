@@ -9,7 +9,7 @@
 }
 
 .social-block__toggler {
-  $component-name: #{str-slice(#{&}, 2)};
+  $element-name: #{str-slice(#{&}, 2)};
 
   @include btn-reset;
   position: relative;
@@ -46,7 +46,7 @@
     border-radius: 50%;
     transition: $transition;
     transition-property: width, height, border-color, background-color;
-    animation-name: #{$component-name}_scaleUp;
+    animation-name: #{$element-name}_scaleUp;
     animation-duration: 0.5s;
     animation-play-state: paused;
     animation-timing-function: cubic-bezier(0.52, -0.11, 0.42, 1.54);
@@ -100,7 +100,7 @@
     }
   }
 
-  @keyframes #{$component-name}_scaleUp {
+  @keyframes #{$element-name}_scaleUp {
     from {
       transform: translate(-50%, -50%) scale(0);
     }

@@ -8,15 +8,15 @@
   position: absolute;
   bottom: 100%;
   left: 50%;
-  transform: translateX(-50%);
-  margin-bottom: 1.2rem;
   width: 100%;
-  text-transform: uppercase;
-  text-align: center;
+  margin-bottom: 1.2rem;
   font-size: 1.6rem;
   line-height: 1.2;
-  opacity: 0;
+  text-align: center;
+  text-transform: uppercase;
   pointer-events: none;
+  opacity: 0;
+  transform: translateX(-50%);
 
   @media (min-width: $stop-scaling) {
     margin-bottom: 12px;
@@ -24,12 +24,13 @@
   }
 
   @media (orientation: portrait) {
-    opacity: 1;
     pointer-events: auto;
+    opacity: 1;
   }
 }
 
 .form__field {
+  $element-name: #{str-slice(#{&}, 2)};
   flex: none;
   width: calc(100% - 21rem);
   height: 6rem;
@@ -44,8 +45,9 @@
   border-radius: 3rem;
   outline: none;
   transform-origin: 100% 50%;
-  animation-name: expand;
+  animation-name: #{$element-name}_expand;
   animation-duration: 0.75s;
+  animation-delay: 0.75s;
   animation-fill-mode: both;
 
   &:focus {
@@ -81,7 +83,7 @@
     font-size: 1.6rem;
   }
 
-  @keyframes expand {
+  @keyframes #{$element-name}_expand {
     from {
       transform: scale(0);
     }
