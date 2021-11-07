@@ -1,13 +1,62 @@
 .screen {
-  position: relative;
-  z-index: 1;
+  $block-name: #{str-slice(#{&}, 2)};
+  $screen: &;
+  position: absolute;
+  top: 0;
+  left: 0;
+  z-index: initial;
   display: flex;
   flex-direction: column;
+  width: 100%;
   min-height: 100vh;
   overflow: hidden;
+  transition-delay: 0.75s;
+  transition-duration: 0s;
+  transition-property: opacity;
+
+  &::after {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    display: block;
+    width: 100%;
+    min-height: 0;
+    content: "";
+    background-color: $c-dark;
+    animation-name: none;
+    animation-duration: 0.75s;
+    animation-fill-mode: forwards;
+  }
 
   &--hidden {
-    display: none;
+    opacity: 0;
+  }
+
+  &.active {
+    z-index: 5;
+
+    &:not(.screen--story) {
+      // stylelint-disable-next-line max-nesting-depth
+      &::after {
+        animation-name: #{$block-name}_fill;
+      }
+    }
+
+    #{$screen}__wrapper {
+      opacity: 1;
+    }
+
+    & + #{$screen}--hidden {
+      opacity: 1;
+
+      // stylelint-disable-next-line max-nesting-depth
+      &:not(.screen--story) {
+        // stylelint-disable-next-line max-nesting-depth
+        &::after {
+          min-height: 100%;
+        }
+      }
+    }
   }
 
   @media (max-width: $tablet) and (orientation: portrait) {
@@ -16,6 +65,16 @@
 
   @media (max-width: $tablet - 1) and (orientation: landscape) {
     height: 100vh;
+  }
+
+  @keyframes #{$block-name}_fill {
+    from {
+      min-height: 0;
+    }
+
+    to {
+      min-height: 100%;
+    }
   }
 }
 
@@ -28,35 +87,44 @@
   flex-grow: 1;
   align-items: center;
   justify-content: center;
+  opacity: 0;
+  transition: opacity 0.75s ease-in-out 0.75s;
+}
+
+.screen__disclaimer,
+.screen__footer {
+  position: absolute;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  z-index: 1;
+  opacity: 0;
+  animation-name: none;
+  animation-duration: 0.75s, 0.35s;
+  animation-fill-mode: forwards;
 }
 
 .screen__disclaimer {
-  position: absolute;
-  right: 0;
-  bottom: 0;
-  left: 0;
-  z-index: 1;
+  $element-name: #{str-slice(#{&}, 2)};
+
+  @include slide($dir: up, $value: 15px, $name-prefix: $element-name);
+
+  .screen.active,
+  .is-loaded & {
+    animation-name: #{$element-name}_slideUp, fadeIn;
+  }
 }
 
 .screen__footer {
-  $component-name: #{str-slice(#{&}, 2)};
+  $element-name: #{str-slice(#{&}, 2)};
 
-  @include slide($dir: up, $value: 15px, $name-prefix: $component-name);
-
-  position: absolute;
-  right: 0;
-  bottom: 0;
-  left: 0;
-  z-index: 1;
+  @include slide($dir: up, $value: 15px, $name-prefix: $element-name);
   color: $c-dark;
   background-color: $c-light;
-  animation-name: #{$component-name}_slideUp, fadeIn;
-  animation-duration: 0.5s, 0.75s;
-  animation-fill-mode: forwards;
-  animation-play-state: paused;
 
+  .screen.active,
   .is-loaded & {
-    animation-play-state: running;
+    animation-name: #{$element-name}_slideUp, fadeIn;
   }
 
   @media (max-width: $tablet) and (orientation: portrait) {
@@ -303,8 +371,11 @@
 }
 
 .screen--story {
-  background-color: $c-dark;
-  background-image: url("../img/slide1.jpg"), url("../img/slide2.jpg"), url("../img/slide3.jpg"), url("../img/slide4.jpg");
+  background-image:
+    url("../img/slide1.jpg"),
+    url("../img/slide2.jpg"),
+    url("../img/slide3.jpg"),
+    url("../img/slide4.jpg");
   background-repeat: no-repeat;
   background-position: center;
   background-size: cover;
@@ -315,13 +386,8 @@
   }
 }
 
-.screen--prizes {
-  background-color: $c-dark;
-}
-
 .screen--game {
   position: relative;
-  background-color: $c-dark;
 
   &::before {
     position: absolute;
@@ -356,15 +422,10 @@
   bottom: 0;
   left: 0;
   pointer-events: none;
-  background-color: $c-dark;
   opacity: 0;
 
   &.screen--show {
     pointer-events: auto;
     opacity: 1;
   }
-}
-
-.screen--rules {
-  background-color: $c-dark;
 }

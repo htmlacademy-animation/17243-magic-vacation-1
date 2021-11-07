@@ -87,9 +87,9 @@
 }
 
 .intro__message {
-  $component-name: #{str-slice(#{&}, 2)};
+  $element-name: #{str-slice(#{&}, 2)};
 
-  @include slide($dir: left, $value: 15px, $name-prefix: $component-name);
+  @include slide($dir: left, $value: 15px, $name-prefix: $element-name);
 
   flex: none;
   width: 50.9rem;
@@ -97,7 +97,7 @@
   font-size: 2.4rem;
   line-height: 1.27;
   text-transform: uppercase;
-  animation-name: #{$component-name}_slideRight, fadeIn;
+  animation-name: #{$element-name}_slideRight, fadeIn;
   animation-duration: 0.75s, 1.5s;
   animation-delay: 0.5s;
   animation-fill-mode: both;
