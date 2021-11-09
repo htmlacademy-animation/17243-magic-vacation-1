@@ -70,18 +70,23 @@
         transform: translateX(#{$value});
         // stylelint-disable-next-line at-rule-empty-line-before, block-closing-brace-newline-after
       } @else if $dir == down {
-        transform: translateY(-#{$value});
+        transform: translateY(#{$value});
         // stylelint-disable-next-line at-rule-empty-line-before, block-closing-brace-newline-after
       } @else if $dir == left {
         transform: translateX(-#{$value});
         // stylelint-disable-next-line at-rule-empty-line-before, block-closing-brace-newline-after
       } @else if $dir == up {
-        transform: translateY(#{$value});
+        transform: translateY(-#{$value});
       }
     }
 
     to {
-      transform: translateY(0);
+      @if $dir == right or $dir == left {
+        transform: translateX(0);
+        // stylelint-disable-next-line at-rule-empty-line-before, block-closing-brace-newline-after
+      } @else if $dir == up or $dir == down {
+        transform: translateY(0);
+      }
     }
   }
 }

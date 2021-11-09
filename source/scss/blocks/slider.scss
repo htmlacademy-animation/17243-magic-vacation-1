@@ -68,41 +68,35 @@
   }
 
   &.swiper-slide {
-    @include slide($dir: right, $value: 15px, $name-prefix: $element-name);
-    @include slide($dir: down, $value: 15px, $name-prefix: $element-name);
-    @include slide($dir: left, $value: 15px, $name-prefix: $element-name);
-    @include slide($dir: up, $value: 15px, $name-prefix: $element-name);
+    @include slide($dir: right, $value: 380px, $name-prefix: $element-name);
+    @include slide($dir: down, $value: 50px, $name-prefix: $element-name);
 
     &-active {
       #{$slider-item}-title {
-        animation-name: #{$element-name}_slideUp, fadeIn;
-        animation-duration: 0.75s, 1s;
-        animation-fill-mode: both;
-
-        @media (max-width: $mobile) {
-          animation-name: #{$element-name}_slideDown, fadeIn;
-          animation-duration: 0.85s, 1.15s;
-        }
+        animation-name: #{$element-name}_slideDown, fadeIn;
+        animation-duration: 0.4s, 0.4s;
+        animation-fill-mode: forwards, both;
       }
 
       #{$slider-item}-text {
-        animation-name: #{$element-name}_slideLeft, fadeIn;
-        animation-duration: 0.75s, 1s;
-        animation-fill-mode: both;
+        animation-name: #{$element-name}_slideRight, fadeIn;
+        animation-duration: 0.4s, 0.4s;
+        animation-delay: 0.2s, 0.2s;
+        animation-fill-mode: forwards, both;
 
         @media (max-width: $mobile) {
-          animation-name: #{$element-name}_slideUp, fadeIn;
-          animation-duration: 0.85s, 1.15s;
+          animation-name: #{$element-name}_slideDown, fadeIn;
+          animation-delay: 0s, 0s;
         }
       }
     }
 
     &-next {
       #{$slider-item}-text {
-        animation-name: slideRight, fadeIn;
-        animation-duration: 0.75s, 1s;
-        animation-delay: 0.35s;
-        animation-fill-mode: both;
+        animation-name: #{$element-name}_slideRight, fadeIn;
+        animation-duration: 0.4s, 0.4s;
+        animation-delay: 0.3s, 0.3s;
+        animation-fill-mode: forwards, both;
       }
     }
   }
