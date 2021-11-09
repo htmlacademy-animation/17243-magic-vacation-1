@@ -29,68 +29,82 @@
   }
 }
 
+.form__field-wrapper {
+  width: calc(100% - 21rem);
+  margin-right: 3rem;
+  overflow: hidden;
+  border-radius: 3rem;
+
+  @media (min-width: $stop-scaling) {
+    width: calc(100% - 210px);
+    margin-right: 30px;
+  }
+
+  @media (orientation: portrait) {
+    width: calc(100% - 5rem);
+    margin-right: 1rem;
+  }
+
+  @media (max-width: $tablet) and (orientation: landscape) {
+    width: calc(100% - 9rem);
+    margin-right: 1rem;
+  }
+
+  @media (max-width: $mobile) and (orientation: landscape) {
+    width: calc(100% - 5rem);
+  }
+}
+
 .form__field {
   $element-name: #{str-slice(#{&}, 2)};
   flex: none;
-  width: calc(100% - 21rem);
+  width: 100%;
   height: 6rem;
   padding: 0 5.6rem;
-  margin-right: 3rem;
   font: inherit;
   font-size: 2.4rem;
   line-height: 1.2;
   color: $c-dark;
   text-transform: uppercase;
   border: 0;
-  border-radius: 3rem;
   outline: none;
   transform-origin: 100% 50%;
   animation-name: #{$element-name}_expand;
-  animation-duration: 0.75s;
-  animation-delay: 0.75s;
+  animation-duration: 0.35s;
+  animation-delay: 1s;
   animation-fill-mode: both;
+
+  @keyframes #{$element-name}_expand {
+    from {
+      transform: scaleX(0);
+    }
+
+    to {
+      transform: scaleX(1);
+    }
+  }
 
   &:focus {
     border: 1px solid $c-purple;
   }
 
   @media (min-width: $stop-scaling) {
-    width: calc(100% - 210px);
     height: 60px;
     padding: 0 56px;
-    margin-right: 30px;
     font-size: 24px;
     border-radius: 30px;
   }
 
   @media (orientation: portrait) {
-    width: calc(100% - 5rem);
     height: 4rem;
     padding: 0 2.5rem;
-    margin-right: 1rem;
     font-size: 1.6rem;
-  }
-
-  @media (max-width: $tablet) and (orientation: landscape) {
-    width: calc(100% - 9rem);
   }
 
   @media (max-width: $mobile) and (orientation: landscape) {
-    width: calc(100% - 5rem);
     height: 4rem;
     padding: 0 2.5rem;
-    margin-right: 1rem;
     font-size: 1.6rem;
-  }
-
-  @keyframes #{$element-name}_expand {
-    from {
-      transform: scale(0);
-    }
-
-    to {
-      transform: scale(1);
-    }
   }
 }
 
