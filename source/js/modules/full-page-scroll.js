@@ -82,8 +82,12 @@ export default class FullPageScroll {
         (item) => item.dataset.href === this.screenElements[this.activeScreen].id
     );
     if (activeItem) {
-      this.menuElements.forEach((item) => item.classList.remove(`active`));
+      this.menuElements.forEach((item) => item.classList.remove(`active`, `animated`));
       activeItem.classList.add(`active`);
+
+      setTimeout(() => {
+        this.screenElements[this.activeScreen].classList.add(`animated`);
+      }, 750);
     }
   }
 
@@ -94,6 +98,7 @@ export default class FullPageScroll {
         screenName: this.screenElements[this.activeScreen].id,
         screenElement: this.screenElements[this.activeScreen],
       },
+      bubbles: true,
     });
 
     document.body.dispatchEvent(event);

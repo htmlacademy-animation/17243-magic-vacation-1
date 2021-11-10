@@ -63,30 +63,21 @@
   @return to-upper-case(str-slice($string, 1, 1)) + str-slice($string, 2);
 }
 
-@mixin slide($dir, $value, $name-prefix) {
-  @keyframes #{$name-prefix}_slide#{capitalize($dir)} {
-    from {
-      @if $dir == right {
-        transform: translateX(#{$value});
-        // stylelint-disable-next-line at-rule-empty-line-before, block-closing-brace-newline-after
-      } @else if $dir == down {
-        transform: translateY(#{$value});
-        // stylelint-disable-next-line at-rule-empty-line-before, block-closing-brace-newline-after
-      } @else if $dir == left {
-        transform: translateX(-#{$value});
-        // stylelint-disable-next-line at-rule-empty-line-before, block-closing-brace-newline-after
-      } @else if $dir == up {
-        transform: translateY(-#{$value});
-      }
-    }
+@function getClassName($className) {
+  @return str-slice(#{$className}, 2);
+}
 
-    to {
-      @if $dir == right or $dir == left {
-        transform: translateX(0);
-        // stylelint-disable-next-line at-rule-empty-line-before, block-closing-brace-newline-after
-      } @else if $dir == up or $dir == down {
-        transform: translateY(0);
-      }
-    }
+@function str-replace($string, $search, $replace: "") {
+  $index: str-index($string, $search);
+
+  @if $index {
+    @return str-slice($string, 1, $index - 1) + $replace +
+      str-replace(
+        str-slice($string, $index + str-length($search)),
+        $search,
+        $replace
+      );
   }
+
+  @return $string;
 }

@@ -14,7 +14,7 @@
 }
 
 .slider__item {
-  $element-name: #{str-slice(#{&}, 2)};
+  $element-name: getClassName(#{&});
   $slider-item: &;
 
   display: flex;

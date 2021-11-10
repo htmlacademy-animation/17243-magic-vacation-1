@@ -1,5 +1,5 @@
 .screen {
-  $block-name: #{str-slice(#{&}, 2)};
+  $block-name: getClassName(#{&});
   $screen: &;
   position: absolute;
   top: 0;
@@ -105,7 +105,7 @@
 }
 
 .screen__disclaimer {
-  $element-name: #{str-slice(#{&}, 2)};
+  $element-name: getClassName(#{&});
 
   @include slide($dir: up, $value: 15px, $name-prefix: $element-name);
 
@@ -116,7 +116,7 @@
 }
 
 .screen__footer {
-  $element-name: #{str-slice(#{&}, 2)};
+  $element-name: getClassName(#{&});
 
   @include slide($dir: up, $value: 15px, $name-prefix: $element-name);
   color: $c-dark;

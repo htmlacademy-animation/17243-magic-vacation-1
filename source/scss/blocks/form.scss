@@ -56,7 +56,7 @@
 }
 
 .form__field {
-  $element-name: #{str-slice(#{&}, 2)};
+  $element-name: getClassName(#{&});
   flex: none;
   width: 100%;
   height: 6rem;
