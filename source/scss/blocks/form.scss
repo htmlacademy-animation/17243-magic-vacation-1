@@ -71,7 +71,7 @@
   transform-origin: 100% 50%;
   animation-name: #{$element-name}_expand;
   animation-duration: 0.35s;
-  animation-delay: 1s;
+  animation-delay: 0.5s;
   animation-fill-mode: both;
 
   @keyframes #{$element-name}_expand {

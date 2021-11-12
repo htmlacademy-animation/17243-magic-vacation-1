@@ -168,7 +168,7 @@
     animation-fill-mode: both;
     animation-timing-function: ease-in-out;
 
-    .screen--rules.animated & {
+    .screen--rules & {
       animation-name: #{$element-name}_growUp;
     }
 
@@ -252,7 +252,7 @@
     animation-fill-mode: both, forwards;
     animation-timing-function: ease-in-out, ease-in-out;
 
-    .screen--rules.animated & {
+    .screen--rules & {
       animation-name: fadeIn, #{$element-name}_slideRight;
     }
 
@@ -273,7 +273,7 @@
   animation-fill-mode: both;
   animation-delay: 1.35s;
 
-  .screen--rules.animated & {
+  .screen--rules & {
     animation-name: #{$element-name}_growUp;
 
     &.btn::before {
