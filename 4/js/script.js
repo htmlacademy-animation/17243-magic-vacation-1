@@ -10430,7 +10430,6 @@ class FullPageScroll {
     this.scrollFlag = true;
     this.timeout = null;
 
-    this.animationScreenElement = document.querySelector(`.animation-screen`);
     this.screenElements = document.querySelectorAll(
         `.screen:not(.screen--result)`
     );
@@ -10448,6 +10447,26 @@ class FullPageScroll {
         `wheel`,
         lodash_throttle__WEBPACK_IMPORTED_MODULE_0___default()(this.onScrollHandler, this.THROTTLE_TIMEOUT, {trailing: true})
     );
+
+    // https://up.htmlacademy.ru/animation/1/tasks/4
+    this.menuElements.forEach((menuElement) =>
+      menuElement.addEventListener(`click`, (evt) => {
+        evt.preventDefault();
+
+        const hash = location.hash.slice(1);
+        const {href} = evt.target.dataset;
+
+        if (hash === `story` && href === `prizes`) {
+          this.screenElements[this.activeScreen].classList.add(
+              `screen--has-transition`
+          );
+          setTimeout(() => (window.location.hash = `${href}`), 750);
+        } else {
+          window.location.hash = `${href}`;
+        }
+      })
+    );
+
     window.addEventListener(`popstate`, this.onUrlHashChengedHandler);
 
     this.onUrlHashChanged();
@@ -10482,7 +10501,6 @@ class FullPageScroll {
   changePageDisplay() {
     this.changeVisibilityDisplay();
     this.changeActiveMenuItem();
-    this.pushActiveScreenAtTheTop();
     this.emitChangeDisplayEvent();
   }
 
@@ -10490,6 +10508,9 @@ class FullPageScroll {
     this.screenElements.forEach((screen) => {
       screen.classList.add(`screen--hidden`);
       screen.classList.remove(`active`);
+
+      // https://up.htmlacademy.ru/animation/1/tasks/4
+      screen.classList.remove(`screen--has-transition`);
     });
     this.screenElements[this.activeScreen].classList.remove(`screen--hidden`);
     setTimeout(() => {
@@ -10497,21 +10518,13 @@ class FullPageScroll {
     }, 100);
   }
 
-  pushActiveScreenAtTheTop() {
-    this.animationScreenElement.after(this.screenElements[this.activeScreen]);
-  }
-
   changeActiveMenuItem() {
     const activeItem = Array.from(this.menuElements).find(
         (item) => item.dataset.href === this.screenElements[this.activeScreen].id
     );
     if (activeItem) {
-      this.menuElements.forEach((item) => item.classList.remove(`active`, `animated`));
+      this.menuElements.forEach((item) => item.classList.remove(`active`));
       activeItem.classList.add(`active`);
-
-      setTimeout(() => {
-        this.screenElements[this.activeScreen].classList.add(`animated`);
-      }, 750);
     }
   }
 
