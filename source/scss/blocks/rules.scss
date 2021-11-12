@@ -118,6 +118,10 @@
 }
 
 .rules__item {
+  $delay: 0.25s;
+  $factor: 3;
+  $element-name: getClassName(#{&});
+
   position: relative;
   padding-top: 0.6rem;
   padding-left: 6.5rem;
@@ -159,6 +163,14 @@
     counter-increment: li;
     background-color: $c-purple;
     border-radius: 50%;
+    animation-name: none;
+    animation-duration: 0.35s;
+    animation-fill-mode: both;
+    animation-timing-function: ease-in-out;
+
+    .screen--rules & {
+      animation-name: #{$element-name}_growUp;
+    }
 
     @media (max-width: $tablet) and (orientation: portrait) {
       top: 1rem;
@@ -175,10 +187,74 @@
       font-size: 1.4rem;
       line-height: 3rem;
     }
+
+    @keyframes #{$element-name}_growUp {
+      from {
+        transform: scale(0);
+      }
+
+      75% {
+        transform: scale(1.25);
+      }
+
+      to {
+        transform: scale(1);
+      }
+    }
+  }
+
+  &:nth-child(1) {
+    &::before {
+      animation-delay: calc(#{$delay} * 1);
+    }
+
+    p {
+      animation-delay: calc((#{$delay} * 1) - (#{$delay} / #{$factor}));
+    }
+  }
+
+  &:nth-child(2) {
+    &::before {
+      animation-delay: calc(#{$delay} * 2);
+    }
+
+    p {
+      animation-delay: calc((#{$delay} * 2) - (#{$delay} / #{$factor}));
+    }
+  }
+
+  &:nth-child(3) {
+    &::before {
+      animation-delay: calc(#{$delay} * 3);
+    }
+
+    p {
+      animation-delay: calc((#{$delay} * 3) - (#{$delay} / #{$factor}));
+    }
+  }
+
+  &:nth-child(4) {
+    &::before {
+      animation-delay: calc(#{$delay} * 4);
+    }
+
+    p {
+      animation-delay: calc((#{$delay} * 4) - (#{$delay} / #{$factor}));
+    }
   }
 
   p {
+    @include slide(right, 85px, $element-name);
+
     margin: 0;
+    animation-name: none;
+    animation-duration: 0.4s, 0.45s;
+    animation-fill-mode: both, forwards;
+    animation-timing-function: ease-in-out, ease-in-out;
+
+    .screen--rules & {
+      animation-name: fadeIn, #{$element-name}_slideRight;
+    }
 
     @media (max-width: $tablet) and (orientation: portrait) {
       min-height: calc(1.4rem * 2.2);
@@ -187,9 +263,44 @@
 }
 
 .rules__link {
+  $element-name: getClassName(&);
+
   position: absolute;
   right: 5.6rem;
   bottom: 6rem;
+  animation-name: none;
+  animation-duration: 0.5s;
+  animation-fill-mode: both;
+  animation-delay: 1.35s;
+
+  .screen--rules & {
+    animation-name: #{$element-name}_growUp;
+
+    &.btn::before {
+      animation-name: fadeIn, #{$element-name}_expand;
+      animation-fill-mode: both, forwards;
+      animation-duration: 0s, 0s;
+      animation-delay: 1.3s, 0s;
+
+      @media (max-width: $mobile) {
+        animation-duration: 0s, 0.5s;
+        animation-delay: 1.3s, 1.3s;
+      }
+    }
+  }
+
+  @keyframes #{$element-name}_growUp {
+    from {
+      font-size: 0;
+    }
+  }
+
+  @keyframes #{$element-name}_expand {
+    from {
+      width: 3.5rem;
+      height: 3.5rem;
+    }
+  }
 
   @media (min-width: $stop-scaling) {
     right: 56px;
