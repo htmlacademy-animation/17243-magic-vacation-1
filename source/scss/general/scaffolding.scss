@@ -85,6 +85,15 @@ img {
   opacity: 0;
 }
 
+.word-wrapper {
+  display: inline-block;
+  overflow: hidden;
+
+  &__item {
+    display: inline-block;
+  }
+}
+
 .hidden {
   display: none;
 }

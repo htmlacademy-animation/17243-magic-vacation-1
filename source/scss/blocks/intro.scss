@@ -23,8 +23,31 @@
   }
 }
 
+.intro__title,
+.intro__date {
+  .word-wrapper {
+    margin-top: -2%;
+  }
+
+  .letter {
+    padding-top: 2%;
+    transition-delay: 1.35s;
+    transition-property: transform;
+    transform: translate3d(0, 110%, 0);
+    will-change: transform;
+  }
+
+  .screen.active &.active {
+    .letter {
+      transform: translate3d(0, 0, 0);
+    }
+  }
+}
+
 .intro__title {
-  max-width: 99rem;
+  $intro-title: &;
+
+  padding-top: 2rem;
   margin: 0;
   font-family: $font-alt;
   font-size: 12rem;
@@ -34,7 +57,7 @@
   letter-spacing: -0.04em;
 
   @media (min-width: $stop-scaling) {
-    max-width: 990px;
+    max-width: 1000px;
     font-size: 120px;
   }
 
@@ -89,7 +112,7 @@
 .intro__message {
   $element-name: getClassName(#{&});
 
-  @include slide($dir: left, $value: 15px, $name-prefix: $element-name);
+  @include slide($dir: down, $value: 35px, $name-prefix: $element-name);
 
   flex: none;
   width: 50.9rem;
@@ -97,10 +120,14 @@
   font-size: 2.4rem;
   line-height: 1.27;
   text-transform: uppercase;
-  animation-name: #{$element-name}_slideRight, fadeIn;
-  animation-duration: 0.75s, 1.5s;
-  animation-delay: 0.5s;
+  animation-name: none;
+  animation-duration: 0.5s, 0.15s;
+  animation-delay: 0.75s, 0.75s;
   animation-fill-mode: both;
+
+  .screen.active & {
+    animation-name: #{$element-name}_slideDown, fadeIn;
+  }
 
   @media (min-width: $stop-scaling) {
     width: 509px;
@@ -149,6 +176,15 @@
   font-size: 2.4rem;
   line-height: 1.2;
   text-transform: uppercase;
+  animation-name: none;
+  opacity: 0;
+  animation-duration: 0.75s;
+  animation-delay: 1.15s;
+  animation-fill-mode: both;
+
+  .screen.active & {
+    animation-name: fadeIn;
+  }
 
   @media (min-width: $stop-scaling) {
     width: 250px;
@@ -163,7 +199,7 @@
   font-size: 4.8rem;
   font-weight: 400;
   line-height: 0.9;
-  letter-spacing: -0.04em;
+  letter-spacing: -0.02em;
 
   @media (min-width: $stop-scaling) {
     margin: 0 0 0 -5px;

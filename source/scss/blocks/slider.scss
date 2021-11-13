@@ -111,6 +111,22 @@
   text-transform: uppercase;
   letter-spacing: -0.04em;
 
+  .word-wrapper {
+    margin-top: -2%;
+  }
+
+  .letter {
+    padding-top: 2%;
+    transform: translate3d(0, 110%, 0);
+    will-change: transform;
+  }
+
+  .screen.active &.active {
+    .letter {
+      transform: translate3d(0, 0, 0);
+    }
+  }
+
   @media (min-width: $stop-scaling) {
     margin-left: -55px;
     font-size: 48px;
