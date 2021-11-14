@@ -30,7 +30,8 @@
     display: none;
   }
 
-  &.active.screen--story {
+  &.active.screen--story,
+  &.active.screen--game {
     &::after {
       min-height: 0;
     }

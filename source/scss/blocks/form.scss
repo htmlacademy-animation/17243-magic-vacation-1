@@ -157,22 +157,26 @@
 
 .form--result {
   .form__field {
-    width: calc(100% - 31rem);
+    &--wrapper {
+      width: calc(100% - 31rem);
+      overflow: hidden;
+      border-radius: 3rem;
 
-    @media (min-width: $stop-scaling) {
-      width: calc(100% - 310px);
-    }
+      @media (min-width: $stop-scaling) {
+        width: calc(100% - 310px);
+      }
 
-    @media (orientation: portrait) {
-      width: calc(100% - 5rem);
-    }
+      @media (orientation: portrait) {
+        width: calc(100% - 5rem);
+      }
 
-    @media (max-width: $tablet) and (orientation: landscape) {
-      width: calc(100% - 9rem);
-    }
+      @media (max-width: $tablet) and (orientation: landscape) {
+        width: calc(100% - 9rem);
+      }
 
-    @media (max-width: $mobile) and (orientation: landscape) {
-      width: calc(100% - 5rem);
+      @media (max-width: $mobile) and (orientation: landscape) {
+        width: calc(100% - 5rem);
+      }
     }
   }
 }

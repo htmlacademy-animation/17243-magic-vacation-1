@@ -655,7 +655,7 @@
       <section class="screen screen--hidden screen--result" id="result">
         <div class="screen__wrapper">
           <div class="result result--trip">
-            <div class="result__image">
+            <div class="result__image-wrapper">
               <picture>
                 <source
                   srcset="img/result1-mob.png 1x, img/result1-mob@2x.png 2x"
@@ -726,13 +726,15 @@
                 <label for="email-field" class="form__label"
                   >зарегистрируй результат</label
                 >
-                <input
-                  type="email"
-                  class="form__field"
-                  id="email-field"
-                  placeholder="e-mail для регистации результата и получения приза"
-                  required
-                />
+                <div class="form__field-wrapper">
+                  <input
+                    type="email"
+                    class="form__field"
+                    id="email-field"
+                    placeholder="e-mail для регистации результата и получения приза"
+                    required
+                  />
+                </div>
                 <button class="form__button btn">
                   отправить
                   <svg
@@ -757,22 +759,9 @@
         </div>
       </section>
 
-      <section class="screen screen--hidden screen--result" id="result2">
+      <section class="screen screen--show screen--result" id="result2">
         <div class="screen__wrapper">
           <div class="result result--prize">
-            <div class="result__image">
-              <picture>
-                <source
-                  srcset="img/result2-mob.png 1x, img/result2-mob@2x.png 2x"
-                  media="(max-width: 768px) and (orientation: portrait)"
-                />
-                <img
-                  src="img/result2.png"
-                  srcset="img/result2@2x.png 2x"
-                  alt=""
-                />
-              </picture>
-            </div>
             <h2 class="result__title">
               <span class="visually-hidden">ПОбеда!</span>
               <svg
@@ -826,18 +815,49 @@
             <div class="result__text">
               <p>чемодан &laquo;Fjord&nbsp;Inc.&raquo;&nbsp;твой</p>
             </div>
+            <div class="result__image-wrapper">
+              <img
+                class="result__image result__image--leaf-blue-1"
+                src="./img/module-2/win-suitcase/leaf-blue-1.png"
+                alt="blue leaf"
+              />
+              <img
+                class="result__image result__image--leaf-blue-2"
+                src="./img/module-2/win-suitcase/leaf-blue-2.png"
+                alt="blue leaf"
+              />
+              <img
+                class="result__image result__image--leaf-green"
+                src="./img/module-2/win-suitcase/leaf-green.png"
+                alt="green leaf"
+              />
+              <img
+                class="result__image result__image--suitcase"
+                src="./img/module-2/win-suitcase/suitcase.png"
+                alt="suitcase"
+              />
+              <img
+                class="result__image result__image--flamingo"
+                width="100%"
+                height="100%"
+                src="./img/module-2/win-suitcase/flamingo.png"
+                alt="flamingo"
+              />
+            </div>
             <div class="result__form">
               <form action="#" method="post" class="form form--result">
                 <label for="email-field2" class="form__label"
                   >зарегистрируй результат</label
                 >
-                <input
-                  type="email"
-                  class="form__field"
-                  id="email-field2"
-                  placeholder="e-mail для регистации результата и получения приза"
-                  required
-                />
+                <div class="form__field-wrapper">
+                  <input
+                    type="email"
+                    class="form__field"
+                    id="email-field2"
+                    placeholder="e-mail для регистации результата и получения приза"
+                    required
+                  />
+                </div>
                 <button class="form__button btn">
                   отправить
                   <svg
@@ -865,7 +885,7 @@
       <section class="screen screen--hidden screen--result" id="result3">
         <div class="screen__wrapper">
           <div class="result result--negative">
-            <div class="result__image">
+            <div class="result__image-wrapper">
               <picture>
                 <source
                   srcset="img/result3-mob.png 1x, img/result3-mob@2x.png 2x"
