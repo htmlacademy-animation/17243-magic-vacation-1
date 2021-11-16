@@ -1,4 +1,4 @@
-import {AccentTypographyBuild} from "../utils/helpers/animation.helpers";
+import {AccentTypographyBuild} from "../utils/helpers/animation";
 
 export default () => {
   const animationPrizesTitle = new AccentTypographyBuild(

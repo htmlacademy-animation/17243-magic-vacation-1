@@ -1,4 +1,4 @@
-import {getRandomNumber} from './number.helpers';
+import {getRandomNumber} from './number';
 
 export class AccentTypographyBuild {
   constructor(elementSelector, timer, classForActivate, property) {
