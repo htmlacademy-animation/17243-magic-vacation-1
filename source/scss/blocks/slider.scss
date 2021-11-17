@@ -203,11 +203,39 @@
 }
 
 .slider__control {
+  $element-name: getClassName(&);
+
   @include btn-reset;
   position: relative;
   width: 4rem;
   height: 4rem;
   color: $c-dark;
+  animation-name: none;
+  animation-duration: 0.15s, 0.35s;
+  animation-timing-function: ease-out, linear;
+  animation-fill-mode: both, both;
+  will-change: opacity, left, transform;
+
+  &,
+  &.swiper-button-disabled {
+    opacity: 0;
+  }
+
+  &--prev {
+    left: -5rem;
+  }
+
+  &--next {
+    left: 5rem;
+  }
+
+  .screen--story.active & {
+    animation-name: fadeIn, #{$element-name}_run;
+  }
+
+  .screen--story.active &.swiper-button-disabled {
+    animation-name: #{$element-name}_fadeIn, #{$element-name}_run;
+  }
 
   @media (min-width: $stop-scaling) {
     width: 40px;
@@ -270,7 +298,27 @@
 
   &.swiper-button-disabled {
     pointer-events: none;
-    opacity: 0.5;
+  }
+
+  @keyframes #{$element-name}_run {
+    to {
+      left: 0;
+      transform: rotate(360deg);
+    }
+  }
+
+  @keyframes #{$element-name}_fadeIn {
+    0% {
+      opacity: 0;
+    }
+
+    66% {
+      opacity: 0;
+    }
+
+    100% {
+      opacity: 0.5;
+    }
   }
 }
 
@@ -286,6 +334,15 @@
   line-height: 4rem;
   text-align: center;
   transform: translateX(-50%);
+  animation-name: none;
+  animation-duration: 0.5s;
+  animation-timing-function: ease-out;
+  animation-fill-mode: both;
+  will-change: opacity;
+
+  .screen--story.active & {
+    animation-name: fadeIn;
+  }
 
   @media (min-width: $stop-scaling) {
     bottom: 28px;
