@@ -1,3 +1,5 @@
+import {setActiveColor} from "../utils/helpers/color";
+
 export default () => {
   let setVH = function () {
     let vh = window.innerHeight * 0.01;
@@ -5,6 +7,7 @@ export default () => {
   };
 
   setVH();
+  setActiveColor(`active-color`, 263, 66, 70);
 
   window.addEventListener(`resize`, setVH);
 };

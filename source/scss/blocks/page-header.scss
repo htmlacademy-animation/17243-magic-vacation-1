@@ -321,14 +321,14 @@
       // stylelint-disable-next-line max-nesting-depth
       &:not(.active) {
         @media (min-width: $tablet) {
-          color: $c-purple;
+          color: lightness(var(--active-color), 1.2);
         }
       }
 
       // stylelint-disable-next-line max-nesting-depth
       &::after {
         @media (min-width: $tablet) {
-          background-color: $c-purple;
+          background-color: lightness(var(--active-color), 1.2);
         }
       }
     }
