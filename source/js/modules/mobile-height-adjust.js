@@ -1,4 +1,4 @@
-import {setActiveColor} from "../utils/helpers/color";
+import {setActiveColor, ColorPalette} from "../utils";
 
 export default () => {
   let setVH = function () {
@@ -7,7 +7,7 @@ export default () => {
   };
 
   setVH();
-  setActiveColor(`active-color`, 263, 66, 70);
+  setActiveColor(`active-color`, ...ColorPalette.PRIMARY);
 
   window.addEventListener(`resize`, setVH);
 };
