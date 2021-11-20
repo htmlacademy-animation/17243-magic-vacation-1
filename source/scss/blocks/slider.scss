@@ -14,8 +14,8 @@
 }
 
 .slider__item {
-  $element-name: getClassName(#{&});
   $slider-item: &;
+  $element-name: getClassName(#{&});
 
   display: flex;
   flex-direction: column;
@@ -203,11 +203,39 @@
 }
 
 .slider__control {
+  $element-name: getClassName(&);
+
   @include btn-reset;
   position: relative;
   width: 4rem;
   height: 4rem;
-  color: $c-dark;
+  color: lightness(var(--active-color), 1.2);
+  animation-name: none;
+  animation-duration: 0.15s, 0.35s;
+  animation-timing-function: ease-in, linear;
+  animation-fill-mode: both, both;
+  will-change: opacity, transform;
+
+  &,
+  &.swiper-button-disabled {
+    opacity: 0;
+  }
+
+  &--prev {
+    transform: translate3d(-5rem, 0, 0);
+  }
+
+  &--next {
+    transform: translate3d(5rem, 0, 0);
+  }
+
+  .screen--story.active & {
+    animation-name: fadeIn, #{$element-name}_translate;
+  }
+
+  .screen--story.active &.swiper-button-disabled {
+    animation-name: #{$element-name}_fadeIn, #{$element-name}_translate;
+  }
 
   @media (min-width: $stop-scaling) {
     width: 40px;
@@ -231,6 +259,15 @@
     width: 1rem;
     height: 2rem;
     pointer-events: none;
+    animation-name: none;
+    animation-duration: 0.35s;
+    animation-timing-function: linear;
+    animation-fill-mode: both;
+    will-change: transform;
+
+    .screen--story.active & {
+      animation-name: #{$element-name}_rotate;
+    }
 
     @media (min-width: $stop-scaling) {
       width: 10px;
@@ -239,7 +276,7 @@
   }
 
   &:hover {
-    color: $c-purple;
+    color: var(--active-color);
 
     &::before {
       width: 112.5%;
@@ -248,11 +285,11 @@
   }
 
   &:focus {
-    color: $c-purple;
+    color: lightness(var(--active-color), 1.2);
     outline: none;
 
     &::before {
-      border-color: $c-purple;
+      border-color: lightness(var(--active-color), 1.2);
     }
   }
 
@@ -263,14 +300,39 @@
     &::before {
       width: 100%;
       height: 100%;
-      background-color: $c-purple;
-      border-color: $c-purple;
+      background-color: lightness(var(--active-color), 1.2);
+      border-color: lightness(var(--active-color), 1.2);
     }
   }
 
   &.swiper-button-disabled {
     pointer-events: none;
-    opacity: 0.5;
+  }
+
+  @keyframes #{$element-name}_translate {
+    to {
+      transform: translate3d(0, 0, 0);
+    }
+  }
+
+  @keyframes #{$element-name}_rotate {
+    to {
+      transform: translate(-50%, -50%) rotate(360deg);
+    }
+  }
+
+  @keyframes #{$element-name}_fadeIn {
+    0% {
+      opacity: 0;
+    }
+
+    66% {
+      opacity: 0;
+    }
+
+    100% {
+      opacity: 0.5;
+    }
   }
 }
 
@@ -286,6 +348,15 @@
   line-height: 4rem;
   text-align: center;
   transform: translateX(-50%);
+  animation-name: none;
+  animation-duration: 0.5s;
+  animation-timing-function: ease-out;
+  animation-fill-mode: both;
+  will-change: opacity;
+
+  .screen--story.active & {
+    animation-name: fadeIn;
+  }
 
   @media (min-width: $stop-scaling) {
     bottom: 28px;
