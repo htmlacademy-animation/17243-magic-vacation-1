@@ -41,26 +41,31 @@
 
   &--flamingo {
     $modifier-name: getClassName(&);
+    --bottom: -3%;
+    --left: 18%;
+    --width: 23%;
+    --transform: rotate(0deg);
 
-    bottom: -3%;
-    left: 18%;
-    width: 23%;
-    transform: rotate(0deg);
+    bottom: var(--bottom);
+    left: var(--left);
+    width: var(--width);
+    transform: var(--transform);
     animation-name: none;
     animation-duration: 0.5s, 1s;
     animation-timing-function: ease-in-out, ease-out;
     animation-delay: 0s, 0.5s;
     animation-iteration-count: 1, infinite;
     animation-direction: normal, alternate;
+    will-change: bottom, left, transform;
 
     .screen--show & {
       animation-name: #{$modifier-name}_showUp, #{$modifier-name}_wiggle;
     }
 
     @media (max-width: $mobile) {
-      bottom: 13%;
-      left: 0;
-      width: 41%;
+      --bottom: 13%;
+      --left: 0;
+      --width: 41%;
     }
 
     @keyframes #{$modifier-name}_showUp {
@@ -69,9 +74,20 @@
         left: 15%;
         transform: rotate(-45deg);
       }
+
+      to {
+        bottom: var(--bottom);
+        left: var(--left);
+        transform: var(--transform);
+      }
     }
 
     @keyframes #{$modifier-name}_wiggle {
+      from {
+        bottom: var(--bottom);
+        transform: var(--transform);
+      }
+
       to {
         bottom: -9%;
         transform: rotate(-5deg);
@@ -81,14 +97,18 @@
 
   &--suitcase {
     $modifier-name: getClassName(&);
+    --bottom: -8%;
+    --left: 34%;
+    --transform: scale(1);
 
-    bottom: -8%;
-    left: 34%;
+    bottom: var(--bottom);
+    left: var(--left);
     width: 30%;
-    transform: scale(1);
+    transform: var(--transform);
     animation-name: none;
     animation-duration: 0.5s;
     animation-timing-function: cubic-bezier(0.66, 0.04, 0.11, 1.36);
+    will-change: bottom, left, transform;
 
     .screen--show & {
       animation-name: #{$modifier-name}_growUp;
@@ -106,6 +126,12 @@
         left: 36%;
         transform: scale(0);
       }
+
+      to {
+        bottom: var(--bottom);
+        left: var(--left);
+        transform: var(--transform);
+      }
     }
   }
 
@@ -115,12 +141,12 @@
     bottom: 0;
     left: 44%;
     width: 50%;
-    transform: rotate(0);
     transform-origin: 0% 50%;
     animation-name: none;
-    animation-duration: 0.5s, 2.5s;
+    animation-duration: 0.5s, 1.5s;
     animation-timing-function: linear, ease-out;
     animation-direction: normal, alternate;
+    will-change: opacity, transform;
 
     .screen--show & {
       animation-name: fadeIn, #{$modifier-name}_wiggle;
@@ -133,12 +159,16 @@
     }
 
     @keyframes #{$modifier-name}_wiggle {
+      from {
+        transform: rotate(0);
+      }
+
       15% {
         transform: rotate(15deg);
       }
 
       25% {
-        transform: rotate(0deg);
+        transform: rotate(-10deg);
       }
 
       45% {
@@ -146,11 +176,15 @@
       }
 
       65% {
-        transform: rotate(0);
+        transform: rotate(-5deg);
       }
 
-      80% {
+      85% {
         transform: rotate(5deg);
+      }
+
+      to {
+        transform: rotate(0);
       }
     }
   }
@@ -174,12 +208,16 @@
     }
 
     @keyframes #{$modifier-name}_wiggle {
+      from {
+        transform: rotate(0);
+      }
+
       15% {
         transform: rotate(15deg);
       }
 
       25% {
-        transform: rotate(0deg);
+        transform: rotate(-10deg);
       }
 
       45% {
@@ -187,11 +225,15 @@
       }
 
       65% {
-        transform: rotate(0);
+        transform: rotate(-5deg);
       }
 
-      80% {
+      85% {
         transform: rotate(5deg);
+      }
+
+      to {
+        transform: rotate(0);
       }
     }
   }
@@ -216,7 +258,7 @@
 
     @keyframes #{$modifier-name}_wiggle {
       from {
-        transform: rotate(5deg);
+        transform: rotate(0);
       }
 
       15% {
@@ -224,7 +266,7 @@
       }
 
       25% {
-        transform: rotate(0deg);
+        transform: rotate(10deg);
       }
 
       45% {
@@ -232,22 +274,26 @@
       }
 
       65% {
-        transform: rotate(0);
+        transform: rotate(5deg);
       }
 
-      80% {
+      85% {
         transform: rotate(-5deg);
+      }
+
+      to {
+        transform: rotate(0);
       }
     }
   }
 
   &--leaf-blue-1,
   &--leaf-blue-2 {
-    transform: rotate(0);
     animation-name: none;
     animation-duration: 0.5s, 2.5s;
     animation-timing-function: linear, ease-out;
     animation-direction: normal, alternate;
+    will-change: opacity, transform;
   }
 }
 
@@ -397,7 +443,6 @@
     height: 4rem;
     margin-left: 1.5rem;
     color: $c-dark;
-    transform: translate3d(5rem, 0, 0);
     animation-duration: 0.15s, 0.55s;
     animation-timing-function: ease-out, linear;
     animation-fill-mode: both, both;
@@ -447,12 +492,20 @@
     }
 
     @keyframes #{$element-name}_translate {
+      from {
+        transform: translate3d(5rem, 0, 0);
+      }
+
       to {
         transform: translate3d(0, 0, 0);
       }
     }
 
     @keyframes #{$element-name}_rotate {
+      from {
+        transform: translate(-50%, -50%) rotate(0);
+      }
+
       to {
         transform: translate(-50%, -50%) rotate(360deg);
       }
