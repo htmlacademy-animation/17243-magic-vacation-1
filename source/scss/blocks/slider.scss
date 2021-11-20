@@ -212,9 +212,9 @@
   color: lightness(var(--active-color), 1.2);
   animation-name: none;
   animation-duration: 0.15s, 0.35s;
-  animation-timing-function: ease-out, linear;
+  animation-timing-function: ease-in, linear;
   animation-fill-mode: both, both;
-  will-change: opacity, left, transform;
+  will-change: opacity, transform;
 
   &,
   &.swiper-button-disabled {
@@ -222,19 +222,19 @@
   }
 
   &--prev {
-    left: -5rem;
+    transform: translate3d(-5rem, 0, 0);
   }
 
   &--next {
-    left: 5rem;
+    transform: translate3d(5rem, 0, 0);
   }
 
   .screen--story.active & {
-    animation-name: fadeIn, #{$element-name}_run;
+    animation-name: fadeIn, #{$element-name}_translate;
   }
 
   .screen--story.active &.swiper-button-disabled {
-    animation-name: #{$element-name}_fadeIn, #{$element-name}_run;
+    animation-name: #{$element-name}_fadeIn, #{$element-name}_translate;
   }
 
   @media (min-width: $stop-scaling) {
@@ -259,6 +259,15 @@
     width: 1rem;
     height: 2rem;
     pointer-events: none;
+    animation-name: none;
+    animation-duration: 0.35s;
+    animation-timing-function: linear;
+    animation-fill-mode: both;
+    will-change: transform;
+
+    .screen--story.active & {
+      animation-name: #{$element-name}_rotate;
+    }
 
     @media (min-width: $stop-scaling) {
       width: 10px;
@@ -300,10 +309,15 @@
     pointer-events: none;
   }
 
-  @keyframes #{$element-name}_run {
+  @keyframes #{$element-name}_translate {
     to {
-      left: 0;
-      transform: rotate(360deg);
+      transform: translate3d(0, 0, 0);
+    }
+  }
+
+  @keyframes #{$element-name}_rotate {
+    to {
+      transform: translate(-50%, -50%) rotate(360deg);
     }
   }
 

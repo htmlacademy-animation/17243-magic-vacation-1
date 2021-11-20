@@ -393,15 +393,15 @@
     $element-name: getClassName(&);
 
     position: relative;
-    left: 5rem;
     width: 4rem;
     height: 4rem;
     margin-left: 1.5rem;
     color: $c-dark;
+    transform: translate3d(5rem, 0, 0);
     animation-duration: 0.15s, 0.55s;
     animation-timing-function: ease-out, linear;
     animation-fill-mode: both, both;
-    will-change: opacity, left, transform;
+    will-change: opacity, transform;
 
     @media (min-width: $stop-scaling) {
       width: 40px;
@@ -425,6 +425,15 @@
       width: 2.4rem;
       height: 1.9rem;
       margin-left: 0.3rem;
+      animation-name: none;
+      animation-duration: 0.55s;
+      animation-timing-function: linear;
+      animation-fill-mode: both;
+      will-change: transform;
+
+      .screen--show & {
+        animation-name: fadeIn, #{$element-name}_rotate;
+      }
 
       @media (min-width: $stop-scaling) {
         width: 24px;
@@ -434,13 +443,18 @@
     }
 
     .screen--show & {
-      animation-name: fadeIn, #{$element-name}_run;
+      animation-name: fadeIn, #{$element-name}_translate;
     }
 
-    @keyframes #{$element-name}_run {
+    @keyframes #{$element-name}_translate {
       to {
-        left: 0;
-        transform: rotate(360deg);
+        transform: translate3d(0, 0, 0);
+      }
+    }
+
+    @keyframes #{$element-name}_rotate {
+      to {
+        transform: translate(-50%, -50%) rotate(360deg);
       }
     }
   }
