@@ -110,6 +110,7 @@
   line-height: 0.9;
   text-transform: uppercase;
   letter-spacing: -0.04em;
+  will-change: transform, opacity;
 
   .word-wrapper {
     margin-top: -2%;
@@ -149,6 +150,7 @@
   margin-bottom: 0;
   font-size: 1.8rem;
   line-height: 2rem;
+  will-change: transform, opacity;
 
   @media (min-width: $stop-scaling) {
     max-width: 340px;
@@ -204,12 +206,14 @@
 
 .slider__control {
   $element-name: getClassName(&);
+  --transform: translate3d(0, 0, 0);
 
   @include btn-reset;
   position: relative;
   width: 4rem;
   height: 4rem;
   color: lightness(var(--active-color), 1.2);
+  transform: var(--transform);
   animation-name: none;
   animation-duration: 0.15s, 0.35s;
   animation-timing-function: ease-in, linear;
@@ -222,11 +226,11 @@
   }
 
   &--prev {
-    transform: translate3d(-5rem, 0, 0);
+    --transform: translate3d(-5rem, 0, 0);
   }
 
   &--next {
-    transform: translate3d(5rem, 0, 0);
+    --transform: translate3d(5rem, 0, 0);
   }
 
   .screen--story.active & {
@@ -254,6 +258,8 @@
   }
 
   svg {
+    --transform: translate(-50%, -50%) rotate(0);
+
     @include center;
     display: block;
     width: 1rem;
@@ -310,12 +316,20 @@
   }
 
   @keyframes #{$element-name}_translate {
+    from {
+      transform: var(--transform);
+    }
+
     to {
       transform: translate3d(0, 0, 0);
     }
   }
 
   @keyframes #{$element-name}_rotate {
+    from {
+      transform: var(--transform);
+    }
+
     to {
       transform: translate(-50%, -50%) rotate(360deg);
     }

@@ -124,6 +124,7 @@
   animation-duration: 0.5s, 0.15s;
   animation-delay: 0.75s, 0.75s;
   animation-fill-mode: both;
+  will-change: transform;
 
   .screen.active & {
     animation-name: #{$element-name}_slideDown, fadeIn;

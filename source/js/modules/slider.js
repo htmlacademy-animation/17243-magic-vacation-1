@@ -1,6 +1,5 @@
 import Swiper from "swiper";
-import {AccentTypographyBuild} from "../utils/helpers/animation";
-import {setActiveColor} from "../utils/helpers/color";
+import {AccentTypographyBuild, setActiveColor, ColorPalette} from "../utils";
 
 export default () => {
   // slider
@@ -25,24 +24,24 @@ export default () => {
               storySlider.activeIndex === 1
             ) {
               sliderContainer.style.backgroundImage = `url("img/slide1.jpg"), linear-gradient(180deg, rgba(83, 65, 118, 0) 0%, #523E75 16.85%)`;
-              setActiveColor(`active-color`, 262, 31, 35);
+              setActiveColor(`active-color`, ...ColorPalette.SLIDE_1);
             } else if (
               storySlider.activeIndex === 2 ||
               storySlider.activeIndex === 3
             ) {
-              setActiveColor(`active-color`, 236, 61, 43);
+              setActiveColor(`active-color`, ...ColorPalette.SLIDE_2);
               sliderContainer.style.backgroundImage = `url("img/slide2.jpg"), linear-gradient(180deg, rgba(45, 54, 179, 0) 0%, #2A34B0 16.85%)`;
             } else if (
               storySlider.activeIndex === 4 ||
               storySlider.activeIndex === 5
             ) {
-              setActiveColor(`active-color`, 214, 49, 54);
+              setActiveColor(`active-color`, ...ColorPalette.SLIDE_3);
               sliderContainer.style.backgroundImage = `url("img/slide3.jpg"), linear-gradient(180deg, rgba(92, 138, 198, 0) 0%, #5183C4 16.85%)`;
             } else if (
               storySlider.activeIndex === 6 ||
               storySlider.activeIndex === 7
             ) {
-              setActiveColor(`active-color`, 252, 22, 21);
+              setActiveColor(`active-color`, ...ColorPalette.SLIDE_4);
               sliderContainer.style.backgroundImage = `url("img/slide4.jpg"), linear-gradient(180deg, rgba(45, 39, 63, 0) 0%, #2F2A42 16.85%)`;
             }
           },

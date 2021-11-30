@@ -134,9 +134,9 @@
 }
 
 .rules__item {
+  $element-name: getClassName(#{&});
   $delay: 0.25s;
   $factor: 3;
-  $element-name: getClassName(#{&});
 
   position: relative;
   padding-top: 0.6rem;
@@ -183,6 +183,7 @@
     animation-duration: 0.35s;
     animation-fill-mode: both;
     animation-timing-function: ease-in-out;
+    will-change: transform;
 
     .screen--rules & {
       animation-name: #{$element-name}_growUp;
@@ -267,6 +268,7 @@
     animation-duration: 0.4s, 0.45s;
     animation-fill-mode: both, forwards;
     animation-timing-function: ease-in-out, ease-in-out;
+    will-change: transform;
 
     .screen--rules & {
       animation-name: fadeIn, #{$element-name}_slideRight;
@@ -280,6 +282,7 @@
 
 .rules__link {
   $element-name: getClassName(&);
+  --font-size: 2.4rem;
 
   position: absolute;
   right: 5.6rem;
@@ -288,6 +291,7 @@
   animation-duration: 0.5s;
   animation-fill-mode: both;
   animation-delay: 1.35s;
+  will-change: font-size;
 
   .screen--rules & {
     animation-name: #{$element-name}_growUp;
@@ -297,6 +301,7 @@
       animation-fill-mode: both, forwards;
       animation-duration: 0s, 0s;
       animation-delay: 1.3s, 0s;
+      will-change: width, height;
 
       @media (max-width: $mobile) {
         animation-duration: 0s, 0.5s;
@@ -305,25 +310,16 @@
     }
   }
 
-  @keyframes #{$element-name}_growUp {
-    from {
-      font-size: 0;
-    }
-  }
-
-  @keyframes #{$element-name}_expand {
-    from {
-      width: 3.5rem;
-      height: 3.5rem;
-    }
-  }
-
   @media (min-width: $stop-scaling) {
+    --font-size: 24px;
+
     right: 56px;
     bottom: 60px;
   }
 
   @media (max-width: $tablet) and (orientation: portrait) {
+    --font-size: 1.8rem;
+
     right: 0;
     bottom: 4rem;
     left: 0;
@@ -334,7 +330,30 @@
   }
 
   @media (max-width: $mobile) and (orientation: landscape) {
+    --font-size: 1.8rem;
     right: 1.5rem;
     bottom: 2rem;
+  }
+
+  @keyframes #{$element-name}_growUp {
+    from {
+      font-size: 0;
+    }
+
+    to {
+      font-size: var(--font-size);
+    }
+  }
+
+  @keyframes #{$element-name}_expand {
+    from {
+      width: 3.5rem;
+      height: 3.5rem;
+    }
+
+    to {
+      width: 100%;
+      height: 100%;
+    }
   }
 }

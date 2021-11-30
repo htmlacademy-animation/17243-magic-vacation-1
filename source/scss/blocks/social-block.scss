@@ -16,7 +16,7 @@
   display: none;
   width: 4rem;
   height: 4rem;
-  color: lightness(var(--active-color), 1.2);
+  color: var(--active-color);
   border-radius: 50%;
   transition: $transition;
   transition-property: color;
@@ -51,6 +51,7 @@
     animation-play-state: paused;
     animation-timing-function: cubic-bezier(0.52, -0.11, 0.42, 1.54);
     animation-fill-mode: forwards;
+    will-change: transform;
 
     .is-loaded & {
       animation-play-state: running;
@@ -75,11 +76,11 @@
   }
 
   &:focus {
-    color: lightness(var(--active-color), 1.2);
+    color: var(--active-color);
     outline: none;
 
     &::before {
-      border-color: lightness(var(--active-color), 1.2);
+      border-color: var(--active-color);
     }
 
     & + .social-block__list {
@@ -95,8 +96,8 @@
     &::before {
       width: 100%;
       height: 100%;
-      background-color: lightness(var(--active-color), 1.2);
-      border-color: lightness(var(--active-color), 1.2);
+      background-color: var(--active-color);
+      border-color: var(--active-color);
     }
   }
 
@@ -220,12 +221,12 @@
 
   @media (max-width: $tablet) and (orientation: portrait) {
     color: $c-light;
-    background-color: lightness(var(--active-color), 1.2);
+    background-color: var(--active-color);
   }
 
   @media (max-width: $mobile) and (orientation: landscape) {
     color: $c-light;
-    background-color: lightness(var(--active-color), 1.2);
+    background-color: var(--active-color);
   }
 
   &:hover {
@@ -233,15 +234,15 @@
   }
 
   &:focus {
-    color: lightness(var(--active-color), 1.2);
+    color: var(--active-color);
     background-color: $c-light;
-    border-color: lightness(var(--active-color), 1.2);
+    border-color: var(--active-color);
     outline: none;
   }
 
   &:active,
   &:active:focus {
-    color: lightness(var(--active-color), 1.2);
+    color: var(--active-color);
     background-color: $c-light;
     border-color: $c-light;
   }

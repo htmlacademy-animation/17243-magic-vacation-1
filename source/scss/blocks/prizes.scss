@@ -4,6 +4,7 @@
   flex-grow: 1;
   width: 100%;
   padding: 14.6rem 0 7.7rem;
+  overflow: hidden;
 
   @media (min-width: $stop-scaling) {
     padding: 146px 0 65px;
@@ -121,7 +122,60 @@
 }
 
 .prizes__item {
+  $prizes-item: &;
+  $delay: 0.65s;
+  $items-count: 3;
   margin-left: 7.5rem;
+  animation-name: none;
+  will-change: transform;
+
+  @for $i from 1 through $items-count {
+    &:nth-of-type(#{$i}) {
+      animation-delay: $delay * $i, $delay * $i;
+    }
+  }
+
+
+  &--journeys {
+    $element-name: getClassName(#{&});
+
+    @include slide(right, 100%, $element-name);
+    animation-duration: 0.5s;
+    animation-fill-mode: both;
+    animation-timing-function: ease-out;
+
+    .screen--prizes & {
+      animation-name: #{$element-name}_slideRight;
+    }
+  }
+
+  &--cases {
+    $element-name: getClassName(#{&});
+
+    @include slide(right, 85px, $element-name);
+    animation-name: none;
+    animation-duration: 0.35s, 0.35s;
+    animation-fill-mode: both, forwards;
+    animation-timing-function: linear, ease-in-out;
+
+    .screen--prizes & {
+      animation-name: fadeIn, #{$element-name}_slideRight;
+    }
+  }
+
+  &--codes {
+    $element-name: getClassName(#{&});
+
+    @include slide(right, 85px, $element-name);
+    animation-name: none;
+    animation-duration: 0.35s, 0.35s;
+    animation-fill-mode: both, forwards;
+    animation-timing-function: linear, ease-in-out;
+
+    .screen--prizes & {
+      animation-name: fadeIn, #{$element-name}_slideRight;
+    }
+  }
 
   @media (min-width: $stop-scaling) {
     margin-left: 75px;
@@ -246,6 +300,9 @@
 }
 
 .prizes__desc {
+  $prizes-item: &;
+  $element-name: getClassName(#{&});
+
   display: flex;
   align-items: flex-end;
   margin: 5.6rem 0 0 0;
@@ -281,6 +338,14 @@
     font-size: 12rem;
     font-weight: 400;
     line-height: 0.55;
+    animation-name: none;
+    animation-duration: 0.35s;
+    animation-fill-mode: both;
+    animation-timing-function: ease-in-out;
+
+    .screen--prizes & {
+      animation-name: fadeIn;
+    }
 
     @media (min-width: $stop-scaling) {
       font-size: 120px;
@@ -301,10 +366,19 @@
   }
 
   span {
+    @include slide(right, 85px, $element-name);
     display: flex;
     align-items: flex-end;
     max-width: 14rem;
     margin-left: 1.4rem;
+    animation-name: none;
+    animation-duration: 0.35s, 0.5s;
+    animation-fill-mode: both, forwards;
+    animation-timing-function: ease-in-out, ease-in-out;
+
+    .screen--prizes & {
+      animation-name: fadeIn, #{$element-name}_slideRight;
+    }
 
     @media (min-width: $stop-scaling) {
       max-width: 140px;
