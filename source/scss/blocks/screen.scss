@@ -436,6 +436,7 @@
 
 .screen--game {
   position: relative;
+  z-index: 5;
 
   &::before {
     position: absolute;

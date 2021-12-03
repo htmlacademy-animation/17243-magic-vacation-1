@@ -22,11 +22,14 @@
   }
 }
 
+.result__content-block {
+  height: 100%;
+}
+
 .result__image-wrapper {
   position: relative;
   z-index: -1;
   width: 100%;
-  height: 602px;
   margin: auto;
   transition: all 0.35s ease-in-out;
   transition-property: width, height;
@@ -303,8 +306,11 @@
 }
 
 .result__title {
+  position: absolute;
+  left: 50%;
   margin: 0 auto 2rem;
   color: $c-light;
+  transform: translate3d(-50%, 0, 0);
 
   @media (min-width: $stop-scaling) {
     margin: 0 auto 20px;
@@ -320,6 +326,38 @@
     height: 100%;
     stroke-linejoin: round;
     stroke-width: 0.2rem;
+  }
+
+  .letter {
+    $modifier-name: str-replace(str-replace(getClassName(&), " "), ".", "_");
+    transform: scale(0.99);
+    will-change: stroke-dashoffset, transform, opacity;
+
+    .screen--show & {
+      animation-name: #{$modifier-name}_dash, #{$modifier-name}_scale, fadeIn;
+    }
+
+    animation-name: none;
+    animation-duration: 0.75s, 0.75s, 0.15s;
+    animation-timing-function: ease-in, ease-out, ease-in-out;
+    animation-delay: 0.25s, 0s, 0s;
+    animation-fill-mode: forwards, both, both;
+
+    @keyframes #{$modifier-name}_scale {
+      from {
+        transform: scale(1.25);
+      }
+
+      to {
+        transform: scale(0.99);
+      }
+    }
+
+    @keyframes #{$modifier-name}_dash {
+      to {
+        stroke-dashoffset: 0;
+      }
+    }
   }
 }
 
@@ -570,6 +608,45 @@
 
     @media (max-width: $mobile) and (orientation: landscape) {
       width: 45rem;
+    }
+
+    .letter {
+      $items-count: 10;
+      $delay: 0.05s;
+      $modifier-name: str-replace(str-replace(getClassName(&), " "), ".", "_");
+
+      animation-name: none;
+      animation-duration: 0.75s, 1s;
+      animation-timing-function: ease-out, cubic-bezier(1, -1.1, 0.81, 1.59);
+      animation-fill-mode: both, both;
+
+      will-change: stroke-dashoffset, transform;
+
+      @for $i from 1 to $items-count {
+        &:nth-of-type(#{$i}) {
+          animation-delay: 1s, $delay * $i;
+        }
+      }
+
+      .screen--show & {
+        animation-name: #{$modifier-name}_dash, #{$modifier-name}_transform;
+      }
+
+      @keyframes #{$modifier-name}_transform {
+        from {
+          transform: scale(0.99) translate3d(0, -100%, 0);
+        }
+
+        to {
+          transform: scale(0.99) translate3d(0, 0, 0);
+        }
+      }
+
+      @keyframes #{$modifier-name}_dash {
+        to {
+          stroke-dashoffset: 0;
+        }
+      }
     }
   }
 }
