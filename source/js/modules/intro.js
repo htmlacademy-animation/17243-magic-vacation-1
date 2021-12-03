@@ -1,19 +1,19 @@
 import {AccentTypographyBuild} from "../utils";
 
 export default () => {
-  const animationIntroTitle = new AccentTypographyBuild(
-      `.intro__title`,
-      750,
-      `active`,
-      `transform`
-  );
+  const animationIntroTitle = new AccentTypographyBuild({
+    elementSelector: `.intro__title`,
+    timer: 750,
+    classForActivate: `active`,
+    propertiesList: [`transform`],
+  });
 
-  const animationIntroDate = new AccentTypographyBuild(
-      `.intro__date`,
-      750,
-      `active`,
-      `transform`
-  );
+  const animationIntroDate = new AccentTypographyBuild({
+    elementSelector: `.intro__date`,
+    timer: 750,
+    classForActivate: `active`,
+    propertiesList: [`transform`],
+  });
 
   const handleMenuClick = () => {
     setTimeout(() => {

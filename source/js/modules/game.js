@@ -1,12 +1,12 @@
 import {AccentTypographyBuild} from "../utils";
 
 export default () => {
-  const animationRulesTitle = new AccentTypographyBuild(
-      `.game__title`,
-      750,
-      `active`,
-      `transform`
-  );
+  const animationRulesTitle = new AccentTypographyBuild({
+    elementSelector: `.game__title`,
+    timer: 750,
+    classForActivate: `active`,
+    propertiesList: [`transform`],
+  });
 
   setTimeout(() => {
     animationRulesTitle.runAnimation();

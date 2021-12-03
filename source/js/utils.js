@@ -6,19 +6,47 @@ export const ColorPalette = {
   SLIDE_4: [252, 22, 21],
 };
 
+export const Category = {
+  PRIMARY: `PRIMARY`,
+  SECONDARY: `SECONDARY`,
+};
+
 export const getRandomNumber = (threshold) =>
   Math.floor(Math.random() * threshold + 1);
 
+const calcTimeOffsetByCategory = (category, delay, offset) => {
+  switch (category) {
+    case Category.PRIMARY:
+      return getRandomNumber(10) * delay;
+
+    case Category.SECONDARY:
+      return (offset += delay);
+
+    default:
+      throw new Error(`Unknown category: ${category}`);
+  }
+};
+
 export class AccentTypographyBuild {
-  constructor(elementSelector, timer, classForActivate, property) {
-    this._DELAY = 20;
+  constructor(props) {
+    const {
+      elementSelector,
+      timer,
+      classForActivate,
+      propertiesList,
+      category = Category.PRIMARY,
+      delay = 20,
+    } = props;
+
+    this._DELAY = delay;
 
     this._elementSelector = elementSelector;
     this._timer = timer;
     this._classForActivate = classForActivate;
-    this._property = property;
+    this._propertiesList = propertiesList;
     this._element = document.querySelector(this._elementSelector);
     this._timeOffset = 0;
+    this._category = category;
 
     this.prePareText();
   }
@@ -27,8 +55,13 @@ export class AccentTypographyBuild {
     const span = document.createElement(`span`);
     span.classList.add(`letter`, `word-wrapper__item`);
     span.textContent = text;
-    span.style.transition = `${this._property} ${this._timer}ms ease ${this._timeOffset}ms`;
-    this._timeOffset = getRandomNumber(10) * this._DELAY;
+    span.style.transition = `all ${this._timer}ms ease ${this._timeOffset}ms`;
+    span.style.transitionProperty = `${this._propertiesList.join()}`;
+    this._timeOffset = calcTimeOffsetByCategory(
+        this._category,
+        this._DELAY,
+        this._timeOffset
+    );
     return span;
   }
 

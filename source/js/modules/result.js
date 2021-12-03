@@ -1,6 +1,8 @@
 export default () => {
   let showResultEls = document.querySelectorAll(`.js-show-result`);
   let results = document.querySelectorAll(`.screen--result`);
+  let letters = document.querySelectorAll(`.js-result-title .js-letter`);
+
   if (results.length) {
     for (let i = 0; i < showResultEls.length; i++) {
       showResultEls[i].addEventListener(`click`, function () {
@@ -28,5 +30,13 @@ export default () => {
         document.getElementById(`message-field`).focus();
       });
     }
+  }
+
+  if (letters.length) {
+    letters.forEach((letter) => {
+      const length = letter.getTotalLength();
+      letter.setAttribute(`stroke-dasharray`, `${length} ${length}`);
+      letter.setAttribute(`stroke-dashoffset`, length);
+    });
   }
 };
