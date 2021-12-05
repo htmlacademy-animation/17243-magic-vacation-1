@@ -58,9 +58,9 @@ export class AccentTypographyBuild {
     span.style.transition = `all ${this._timer}ms ease ${this._timeOffset}ms`;
     span.style.transitionProperty = `${this._propertiesList.join()}`;
     this._timeOffset = calcTimeOffsetByCategory(
-        this._category,
-        this._DELAY,
-        this._timeOffset
+      this._category,
+      this._DELAY,
+      this._timeOffset
     );
     return span;
   }
@@ -106,10 +106,43 @@ export const setActiveColor = (colorName, hue, saturation, lightness) => {
   const rootElement = document.documentElement;
 
   rootElement.style.setProperty(
-      `--${colorName}`,
-      `hsl(${hue}, ${saturation}%, ${lightness}%)`
+    `--${colorName}`,
+    `hsl(${hue}, ${saturation}%, ${lightness}%)`
   );
   rootElement.style.setProperty(`--${colorName}-h`, hue);
   rootElement.style.setProperty(`--${colorName}-s`, `${saturation}%`);
   rootElement.style.setProperty(`--${colorName}-l`, `${lightness}%`);
+};
+
+export const getTimer = (duration, display) => {
+  const start = Date.now();
+  let diff;
+  let minutes;
+  let seconds;
+
+  const timer = () => {
+    // get the number of seconds that have elapsed since
+    // startTimer() was called
+    diff = duration - (((Date.now() - start) / 1000) | 0);
+
+    minutes = (diff / 60) | 0;
+    seconds = diff % 60 | 0;
+
+    minutes = minutes < 10 ? `0` + minutes : minutes;
+    seconds = seconds < 10 ? `0` + seconds : seconds;
+
+    const minutesElement = display.firstChild;
+    const secondsElement = display.lastChild;
+
+    minutesElement.textContent = minutes;
+    secondsElement.textContent = seconds;
+
+    if (diff <= 0) {
+      // add one second so that the count down starts at the full duration
+      // example 05:00 not 04:59
+      start = Date.now() + 1000;
+    }
+  };
+
+  return timer;
 };
