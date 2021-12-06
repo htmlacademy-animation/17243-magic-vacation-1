@@ -27,6 +27,20 @@ const calcTimeOffsetByCategory = (category, delay, offset) => {
   }
 };
 
+export const setActiveColor = (colorName, hue, saturation, lightness) => {
+  const rootElement = document.documentElement;
+
+  rootElement.style.setProperty(
+      `--${colorName}`,
+      `hsl(${hue}, ${saturation}%, ${lightness}%)`
+  );
+  rootElement.style.setProperty(`--${colorName}-h`, hue);
+  rootElement.style.setProperty(`--${colorName}-s`, `${saturation}%`);
+  rootElement.style.setProperty(`--${colorName}-l`, `${lightness}%`);
+};
+
+export const pad = (value) => (`0` + Math.floor(value)).slice(-2);
+
 export class AccentTypographyBuild {
   constructor(props) {
     const {
@@ -58,9 +72,9 @@ export class AccentTypographyBuild {
     span.style.transition = `all ${this._timer}ms ease ${this._timeOffset}ms`;
     span.style.transitionProperty = `${this._propertiesList.join()}`;
     this._timeOffset = calcTimeOffsetByCategory(
-      this._category,
-      this._DELAY,
-      this._timeOffset
+        this._category,
+        this._DELAY,
+        this._timeOffset
     );
     return span;
   }
@@ -102,47 +116,69 @@ export class AccentTypographyBuild {
   }
 }
 
-export const setActiveColor = (colorName, hue, saturation, lightness) => {
-  const rootElement = document.documentElement;
+export class Countdown {
+  constructor() {
+    this.duration = 0;
+    this.elapsed = 0;
+    this.isActive = false;
+    this.lastFrameTime = Date.now();
+    this.tick = () => {
+      const currentFrameTime = Date.now();
+      const deltaTime = currentFrameTime - this.lastFrameTime;
+      this.lastFrameTime = currentFrameTime;
 
-  rootElement.style.setProperty(
-    `--${colorName}`,
-    `hsl(${hue}, ${saturation}%, ${lightness}%)`
-  );
-  rootElement.style.setProperty(`--${colorName}-h`, hue);
-  rootElement.style.setProperty(`--${colorName}-s`, `${saturation}%`);
-  rootElement.style.setProperty(`--${colorName}-l`, `${lightness}%`);
-};
+      if (this.isActive) {
+        this.elapsed += deltaTime;
+        this.onTick(this.getTimeLeft());
 
-export const getTimer = (duration, display) => {
-  const start = Date.now();
-  let diff;
-  let minutes;
-  let seconds;
+        if (this.getTimeLeft() <= 0) {
+          this.pause();
+          this.onCompleted();
+        }
+      }
 
-  const timer = () => {
-    // get the number of seconds that have elapsed since
-    // startTimer() was called
-    diff = duration - (((Date.now() - start) / 1000) | 0);
+      window.requestAnimationFrame(this.tick);
+    };
 
-    minutes = (diff / 60) | 0;
-    seconds = diff % 60 | 0;
+    this.onTick = () => {};
+    this.onCompleted = () => {};
 
-    minutes = minutes < 10 ? `0` + minutes : minutes;
-    seconds = seconds < 10 ? `0` + seconds : seconds;
+    this.tick();
+  }
 
-    const minutesElement = display.firstChild;
-    const secondsElement = display.lastChild;
+  getTimeLeft() {
+    const t = this.duration - this.elapsed;
 
-    minutesElement.textContent = minutes;
-    secondsElement.textContent = seconds;
+    return Math.max(0, t);
+  }
 
-    if (diff <= 0) {
-      // add one second so that the count down starts at the full duration
-      // example 05:00 not 04:59
-      start = Date.now() + 1000;
-    }
-  };
+  pause() {
+    this.isActive = false;
 
-  return timer;
-};
+    return this;
+  }
+
+  reset() {
+    this.elapsed = 0;
+  }
+
+  start() {
+    this.isActive = true;
+
+    return this;
+  }
+
+  setDuration(minutes) {
+    this.lastFrameTime = Date.now();
+    this.duration = (minutes * 60 * 1000) + 1000;
+
+    return this;
+  }
+
+  format(milliseconds) {
+    const seconds = Math.floor((milliseconds / 1000) % 60);
+    const minutes = Math.floor((milliseconds / 1000) / 60);
+
+    return {seconds, minutes};
+  }
+}

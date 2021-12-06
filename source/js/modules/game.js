@@ -1,4 +1,4 @@
-import {AccentTypographyBuild, getTimer} from "../utils";
+import {AccentTypographyBuild, Countdown, pad} from "../utils";
 
 export default () => {
   // Typography animation
@@ -14,20 +14,36 @@ export default () => {
   }, 100);
 
   // Setting the Timer
-  const gameCounterElement = document.querySelector(`.game__counter`);
-  let timerId = null;
-  const minutesCount = 5;
+  const MINUTES_COUNT = 5;
+  const countdown = new Countdown().setDuration(MINUTES_COUNT);
+
+  countdown.onTick = (time) => {
+    const {minutes, seconds} = countdown.format(time);
+
+    label.firstChild.textContent = pad(minutes);
+    label.lastChild.textContent = pad(seconds);
+  };
+  countdown.onCompleted = () => {
+    console.log(`Game finished!`); // eslint-disable-line no-console
+  };
+  const label = document.querySelector(`.game__counter`);
 
   document.addEventListener(`screenChanged`, ({detail: {screenName}}) => {
     switch (screenName) {
       case `game`:
-        timerId = setInterval(getTimer(60 * minutesCount, gameCounterElement), 1000);
+        countdown.start();
         break;
 
       default:
-        clearInterval(timerId);
-        gameCounterElement.firstChild.textContent = minutesCount < 10 ? `0` + minutesCount : minutesCount;
-        gameCounterElement.lastChild.textContent = `00`;
+        countdown.onCompleted();
+        countdown.reset();
+        countdown.pause();
+
+        const {minutes, seconds} = countdown.format(
+            Math.ceil(countdown.getTimeLeft())
+        );
+        label.firstChild.textContent = pad(minutes);
+        label.lastChild.textContent = pad(seconds);
     }
   });
 };
