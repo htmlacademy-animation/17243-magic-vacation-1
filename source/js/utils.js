@@ -27,6 +27,20 @@ const calcTimeOffsetByCategory = (category, delay, offset) => {
   }
 };
 
+export const setActiveColor = (colorName, hue, saturation, lightness) => {
+  const rootElement = document.documentElement;
+
+  rootElement.style.setProperty(
+    `--${colorName}`,
+    `hsl(${hue}, ${saturation}%, ${lightness}%)`
+  );
+  rootElement.style.setProperty(`--${colorName}-h`, hue);
+  rootElement.style.setProperty(`--${colorName}-s`, `${saturation}%`);
+  rootElement.style.setProperty(`--${colorName}-l`, `${lightness}%`);
+};
+
+export const pad = (value) => (`0` + Math.floor(value)).slice(-2);
+
 export class AccentTypographyBuild {
   constructor(props) {
     const {
@@ -58,9 +72,9 @@ export class AccentTypographyBuild {
     span.style.transition = `all ${this._timer}ms ease ${this._timeOffset}ms`;
     span.style.transitionProperty = `${this._propertiesList.join()}`;
     this._timeOffset = calcTimeOffsetByCategory(
-        this._category,
-        this._DELAY,
-        this._timeOffset
+      this._category,
+      this._DELAY,
+      this._timeOffset
     );
     return span;
   }
@@ -102,14 +116,76 @@ export class AccentTypographyBuild {
   }
 }
 
-export const setActiveColor = (colorName, hue, saturation, lightness) => {
-  const rootElement = document.documentElement;
+export class Countdown {
+  constructor() {
+    this.TIME_SCALE = 60;
+    this._SECOND = 1000;
+    this._FPS = 60;
+    this.fpsInterval = this._SECOND / this._FPS;
+    this.duration = 0;
+    this.elapsed = 0;
+    this.isActive = false;
+    this.lastFrameTime = Date.now();
+    this.tick = () => {
+      const currentFrameTime = Date.now();
+      const deltaTime = currentFrameTime - this.lastFrameTime;
+      this.lastFrameTime = currentFrameTime;
 
-  rootElement.style.setProperty(
-      `--${colorName}`,
-      `hsl(${hue}, ${saturation}%, ${lightness}%)`
-  );
-  rootElement.style.setProperty(`--${colorName}-h`, hue);
-  rootElement.style.setProperty(`--${colorName}-s`, `${saturation}%`);
-  rootElement.style.setProperty(`--${colorName}-l`, `${lightness}%`);
-};
+      if (this.isActive) {
+        this.elapsed += deltaTime;
+
+        if (deltaTime > this.fpsInterval) {
+          this.onTick(this.getTimeLeft());
+        }
+
+        if (this.getTimeLeft() <= 0) {
+          this.pause();
+          this.onCompleted();
+        }
+      }
+
+      window.requestAnimationFrame(this.tick);
+    };
+
+    this.onTick = () => {};
+    this.onCompleted = () => {};
+
+    this.tick();
+  }
+
+  getTimeLeft() {
+    const t = this.duration - this.elapsed;
+
+    return Math.max(0, t);
+  }
+
+  pause() {
+    this.isActive = false;
+
+    return this;
+  }
+
+  reset() {
+    this.elapsed = 0;
+  }
+
+  start() {
+    this.isActive = true;
+
+    return this;
+  }
+
+  setDuration(minutes) {
+    this.lastFrameTime = Date.now();
+    this.duration = minutes * this.TIME_SCALE * this._SECOND + this._SECOND;
+
+    return this;
+  }
+
+  format(milliseconds) {
+    const seconds = Math.floor((milliseconds / this._SECOND) % this.TIME_SCALE);
+    const minutes = Math.floor(milliseconds / this._SECOND / this.TIME_SCALE);
+
+    return { seconds, minutes };
+  }
+}
