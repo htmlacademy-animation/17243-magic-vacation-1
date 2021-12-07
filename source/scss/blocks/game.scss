@@ -117,6 +117,19 @@
     margin-bottom: 1rem;
     font-size: 2rem;
   }
+
+  span {
+    display: inline-block;
+    min-width: 5.5rem;
+
+    &:first-of-type {
+      text-align: right;
+    }
+
+    &:last-of-type {
+      text-align: left;
+    }
+  }
 }
 
 .game__body {

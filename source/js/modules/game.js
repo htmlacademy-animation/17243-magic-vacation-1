@@ -26,24 +26,21 @@ export default () => {
   countdown.onCompleted = () => {
     console.log(`Game finished!`); // eslint-disable-line no-console
   };
-  const label = document.querySelector(`.game__counter`);
+  const label = document.querySelector(`.js-game-counter`);
 
   document.addEventListener(`screenChanged`, ({detail: {screenName}}) => {
-    switch (screenName) {
-      case `game`:
-        countdown.start();
-        break;
+    if (screenName === `game`) {
+      countdown.start();
+    } else {
+      countdown.onCompleted();
+      countdown.reset();
+      countdown.pause();
 
-      default:
-        countdown.onCompleted();
-        countdown.reset();
-        countdown.pause();
-
-        const {minutes, seconds} = countdown.format(
-            Math.ceil(countdown.getTimeLeft())
-        );
-        label.firstChild.textContent = pad(minutes);
-        label.lastChild.textContent = pad(seconds);
+      const {minutes, seconds} = countdown.format(
+          Math.ceil(countdown.getTimeLeft())
+      );
+      label.firstChild.textContent = pad(minutes);
+      label.lastChild.textContent = pad(seconds);
     }
   });
 };
