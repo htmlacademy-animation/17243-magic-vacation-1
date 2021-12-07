@@ -1795,6 +1795,16 @@ img {
     font-size: 2rem;
   }
 }
+.game__counter span {
+  display: inline-block;
+  min-width: 5.5rem;
+}
+.game__counter span:first-of-type {
+  text-align: right;
+}
+.game__counter span:last-of-type {
+  text-align: left;
+}
 
 .game__body {
   display: flex;
