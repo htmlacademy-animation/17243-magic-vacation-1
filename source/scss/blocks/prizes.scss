@@ -257,6 +257,16 @@
         width: 7rem;
       }
     }
+
+    .prizes__desc {
+      b {
+        min-width: 6.5rem;
+      }
+
+      span {
+        margin-left: initial;
+      }
+    }
   }
 
   &--codes {
@@ -281,6 +291,16 @@
 
       @media (max-width: $mobile) and (orientation: landscape) {
         width: 10rem;
+      }
+    }
+
+    .prizes__desc {
+      b {
+        min-width: 20rem;
+      }
+
+      span {
+        margin-left: initial;
       }
     }
   }
@@ -333,6 +353,7 @@
   }
 
   b {
+    display: flex;
     font-family: $font-alt;
     font-size: 12rem;
     font-weight: 400;
@@ -419,4 +440,3 @@
     }
   }
 }
-
