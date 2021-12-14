@@ -574,7 +574,7 @@
         </div>
       </section>
 
-      <section class="screen screen--show screen--game" id="game">
+      <section class="screen screen--hidden screen--game" id="game">
         <div class="screen__wrapper">
           <div class="game">
             <div class="game__header">
@@ -714,7 +714,8 @@
                 </svg>
               </h2>
               <div class="result__image-wrapper">
-                <picture>
+                <canvas id="sea-calf-scene" class="result__scene result__scene--sea-calf"></canvas>
+                <!-- <picture>
                   <source
                     srcset="img/result1-mob.png 1x, img/result1-mob@2x.png 2x"
                     media="(max-width: 768px) and (orientation: portrait)"
@@ -724,7 +725,7 @@
                     srcset="img/result1@2x.png 2x"
                     alt=""
                   />
-                </picture>
+                </picture> -->
               </div>
             </div>
             <div class="result__text">

@@ -48,6 +48,7 @@ export default () => {
           document.querySelectorAll(`.js-prizes-desc > *:first-child`)
       )
         .slice(1)
+        // eslint-disable-next-line consistent-return
         .map((item) => {
           const parent = item.closest(`.js-prizes-item`);
 
