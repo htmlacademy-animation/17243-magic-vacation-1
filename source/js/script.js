@@ -13,7 +13,6 @@ import prizes from "./modules/prizes.js";
 import rules from "./modules/rules.js";
 import game from "./modules/game.js";
 import FullPageScroll from "./modules/full-page-scroll";
-import Scene2DSeaCalf from './modules/scene-2d-sea-calf';
 
 // init modules
 init();
@@ -31,6 +30,4 @@ rules();
 game();
 
 const fullPageScroll = new FullPageScroll();
-// eslint-disable-next-line no-new
-new Scene2DSeaCalf();
 fullPageScroll.init();
