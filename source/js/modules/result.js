@@ -1,8 +1,9 @@
 import Scene2DSeaCalf from "./scene-2d-sea-calf";
+import Scene2DCrocodile from './scene-2d-crocodile';
 
 const resultMapping = {
   result: Scene2DSeaCalf,
-  resul3: null,
+  result3: Scene2DCrocodile,
 };
 
 export default () => {

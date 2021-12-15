@@ -307,7 +307,8 @@
 }
 
 .result__scene {
-  &--sea-calf {
+  &--sea-calf,
+  &--crocodile {
     @include center();
   }
 }
