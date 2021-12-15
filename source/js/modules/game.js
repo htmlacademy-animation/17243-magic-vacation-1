@@ -20,8 +20,8 @@ export default () => {
   countdown.onTick = (time) => {
     const {minutes, seconds} = countdown.format(time);
 
-    label.firstChild.textContent = pad(minutes);
-    label.lastChild.textContent = pad(seconds);
+    label.firstElementChild.textContent = pad(minutes);
+    label.lastElementChild.textContent = pad(seconds);
   };
   countdown.onCompleted = () => {
     console.log(`Game finished!`); // eslint-disable-line no-console
@@ -39,8 +39,8 @@ export default () => {
       const {minutes, seconds} = countdown.format(
           Math.ceil(countdown.getTimeLeft())
       );
-      label.firstChild.textContent = pad(minutes);
-      label.lastChild.textContent = pad(seconds);
+      label.firstElementChild.textContent = pad(minutes);
+      label.lastElementChild.textContent = pad(seconds);
     }
   });
 };
