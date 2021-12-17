@@ -10611,8 +10611,8 @@ __webpack_require__.r(__webpack_exports__);
       const {minutes, seconds} = countdown.format(
           Math.ceil(countdown.getTimeLeft())
       );
-      label.firstChild.textContent = Object(_utils__WEBPACK_IMPORTED_MODULE_0__["pad"])(minutes);
-      label.lastChild.textContent = Object(_utils__WEBPACK_IMPORTED_MODULE_0__["pad"])(seconds);
+      label.firstElementChild.textContent = Object(_utils__WEBPACK_IMPORTED_MODULE_0__["pad"])(minutes);
+      label.lastElementChild.textContent = Object(_utils__WEBPACK_IMPORTED_MODULE_0__["pad"])(seconds);
     }
   });
 });
@@ -11059,10 +11059,18 @@ const OBJECTS = Object.freeze({
     y: 56,
     size: 2.8,
     opacity: 0,
-    transforms: {
-      translateX: 1,
-      translateY: -10,
-    },
+    transforms: {},
+  },
+});
+
+const LOCALS = Object.freeze({
+  mask: {
+    startingPoint: [56.6, 64.2],
+    segments: [
+      [52, 40],
+      [24, 38],
+      [26, 65],
+    ],
   },
 });
 
@@ -11073,22 +11081,33 @@ class Scene2DCrocodile extends _utils__WEBPACK_IMPORTED_MODULE_0__["Scene2D"] {
     super({
       canvas,
       objects: OBJECTS,
+      locals: LOCALS,
       imagesUrls: IMAGES_URLS,
     });
 
-    this.drawCrocodileMask = () => {
+    this.initLocals();
+
+    this.drawMask = () => {
+      const s = this.size;
+
+      const {
+        mask: {startingPoint, segments},
+      } = this.locals;
+      const [startingPointX, startingPointY] = startingPoint;
+
       this.ctx.save();
       this.ctx.beginPath();
-      this.ctx.moveTo(720, 800);
-      this.ctx.lineTo(675, 550);
-      this.ctx.lineTo(350, 550);
-      this.ctx.lineTo(350, 915);
+      this.ctx.moveTo((startingPointX * s) / 100, (startingPointY * s) / 100);
+      segments.forEach((segment) => {
+        const [segmentX, segmentY] = segment;
+        this.ctx.lineTo((segmentX * s) / 100, (segmentY * s) / 100);
+      });
       this.ctx.closePath();
       this.ctx.clip();
     };
 
     this.afterInit = () => {
-      this.objects.crocodile.before = this.drawCrocodileMask;
+      this.objects.crocodile.before = this.drawMask;
       this.objects.crocodile.after = () => this.ctx.restore();
     };
 
@@ -11096,6 +11115,17 @@ class Scene2DCrocodile extends _utils__WEBPACK_IMPORTED_MODULE_0__["Scene2D"] {
     this.initObjects(OBJECTS);
     this.start();
     this.updateSize();
+  }
+
+  initLocals() {
+    const {startingPoint, segments} = LOCALS.mask;
+
+    this.locals = {
+      mask: {
+        startingPoint,
+        segments,
+      },
+    };
   }
 
   initEventListeners() {
@@ -11128,8 +11158,11 @@ class Scene2DCrocodile extends _utils__WEBPACK_IMPORTED_MODULE_0__["Scene2D"] {
         new _utils__WEBPACK_IMPORTED_MODULE_0__["Animation"]({
           func: (progress) => {
             this.objects.key.opacity = progress;
+            this.objects.key.transforms.scaleX = progress;
+            this.objects.key.transforms.scaleY = progress;
           },
-          duration: 500,
+          duration: 350,
+          easing: _utils__WEBPACK_IMPORTED_MODULE_0__["Easing"].EASE_OUT_CUBIC,
         })
     );
   }
@@ -11157,7 +11190,7 @@ class Scene2DCrocodile extends _utils__WEBPACK_IMPORTED_MODULE_0__["Scene2D"] {
           },
           duration: 1500,
           delay: 750,
-          easing: _utils__WEBPACK_IMPORTED_MODULE_0__["Easing"].EASE_OUT_CUBIC,
+          easing: _utils__WEBPACK_IMPORTED_MODULE_0__["Easing"].EASE_OUT_QUAD,
         })
     );
   }
@@ -11186,7 +11219,7 @@ class Scene2DCrocodile extends _utils__WEBPACK_IMPORTED_MODULE_0__["Scene2D"] {
           },
           duration: 1250,
           delay: 750,
-          easing: _utils__WEBPACK_IMPORTED_MODULE_0__["Easing"].EASE_OUT_CUBIC,
+          easing: _utils__WEBPACK_IMPORTED_MODULE_0__["Easing"].EASE_OUT_QUAD,
         })
     );
   }
@@ -11213,7 +11246,7 @@ class Scene2DCrocodile extends _utils__WEBPACK_IMPORTED_MODULE_0__["Scene2D"] {
           },
           duration: 2000,
           delay: 750,
-          easing: _utils__WEBPACK_IMPORTED_MODULE_0__["Easing"].EASE_OUT_CUBIC,
+          easing: _utils__WEBPACK_IMPORTED_MODULE_0__["Easing"].EASE_OUT_QUAD,
         })
     );
   }
@@ -11242,7 +11275,7 @@ class Scene2DCrocodile extends _utils__WEBPACK_IMPORTED_MODULE_0__["Scene2D"] {
           },
           duration: 2000,
           delay: 750,
-          easing: _utils__WEBPACK_IMPORTED_MODULE_0__["Easing"].EASE_OUT_CUBIC,
+          easing: _utils__WEBPACK_IMPORTED_MODULE_0__["Easing"].EASE_OUT_QUAD,
         })
     );
   }
@@ -11270,7 +11303,7 @@ class Scene2DCrocodile extends _utils__WEBPACK_IMPORTED_MODULE_0__["Scene2D"] {
           },
           duration: 2000,
           delay: 750,
-          easing: _utils__WEBPACK_IMPORTED_MODULE_0__["Easing"].EASE_OUT_CUBIC,
+          easing: _utils__WEBPACK_IMPORTED_MODULE_0__["Easing"].EASE_OUT_QUAD,
         })
     );
   }
@@ -11292,46 +11325,38 @@ class Scene2DCrocodile extends _utils__WEBPACK_IMPORTED_MODULE_0__["Scene2D"] {
   initDropAnimations() {
     this.animations.push(
         new _utils__WEBPACK_IMPORTED_MODULE_0__["Animation"]({
+          func: (progress, details) => {
+            const timePassed = (details.currentTime - details.startTime) / 1000;
+            const FACTOR = 3;
+
+            this.objects.drop.transforms.scaleX = Math.min(
+                progress,
+                timePassed % FACTOR
+            );
+            this.objects.drop.transforms.scaleY = Math.min(
+                progress,
+                timePassed % FACTOR
+            );
+
+            this.objects.drop.opacity = timePassed % FACTOR;
+            this.objects.drop.transforms.translateX =
+            this.objects.drop.transforms.scaleX < progress
+              ? progress - (timePassed % FACTOR)
+              : 0;
+            this.objects.drop.transforms.translateY = timePassed % FACTOR;
+          },
+          duration: `infinite`,
+          delay: 1000,
+          easing: _utils__WEBPACK_IMPORTED_MODULE_0__["Easing"].EASE_IN_EXPO,
+        })
+    );
+    this.animations.push(
+        new _utils__WEBPACK_IMPORTED_MODULE_0__["Animation"]({
           func: () => {
             this.objects.drop.opacity = 1;
           },
           duration: 0,
           delay: 1000,
-        })
-    );
-    this.animations.push(
-        new _utils__WEBPACK_IMPORTED_MODULE_0__["Animation"]({
-          func: (progress, details) => {
-            this.objects.drop.transforms.translateY =
-            progress -
-            Math.sin((2 * (details.currentTime - details.startTime)) / 1000);
-          },
-          duration: `infinite`,
-          delay: 0,
-        })
-    );
-    this.animations.push(
-        new _utils__WEBPACK_IMPORTED_MODULE_0__["Animation"]({
-          func: (progress, details) => {
-            this.objects.drop.opacity =
-            progress -
-            Math.sin((2 * (details.currentTime - details.startTime)) / 1000);
-          },
-          duration: `infinite`,
-          delay: 2550,
-        })
-    );
-    this.animations.push(
-        new _utils__WEBPACK_IMPORTED_MODULE_0__["Animation"]({
-          func: (progress, details) => {
-            this.objects.drop.transforms.scaleX =
-            Math.min(progress, progress - Math.sin(2 * (details.currentTime - details.startTime) / 1000));
-            this.objects.drop.transforms.scaleY =
-            Math.min(progress, progress - Math.sin(2 * (details.currentTime - details.startTime) / 1000));
-          },
-          duration: `infinite`,
-          delay: 0,
-
         })
     );
   }
@@ -11925,7 +11950,7 @@ fullPageScroll.init();
 /*!****************************!*\
   !*** ./source/js/utils.js ***!
   \****************************/
-/*! exports provided: ColorPalette, Category, Easing, getRandomNumber, setActiveColor, pad, Animation, Scene2D, AccentTypographyBuild, Countdown */
+/*! exports provided: ColorPalette, Category, Easing, getRandomNumber, setActiveColor, pad, getPercentage, getPx, Animation, Scene2D, AccentTypographyBuild, Countdown */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -11936,6 +11961,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "getRandomNumber", function() { return getRandomNumber; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "setActiveColor", function() { return setActiveColor; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "pad", function() { return pad; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "getPercentage", function() { return getPercentage; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "getPx", function() { return getPx; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "Animation", function() { return Animation; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "Scene2D", function() { return Scene2D; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "AccentTypographyBuild", function() { return AccentTypographyBuild; });
@@ -12123,6 +12150,9 @@ const setActiveColor = (colorName, hue, saturation, lightness) => {
 };
 
 const pad = (value) => (`0` + Math.floor(value)).slice(-2);
+
+const getPercentage = (partialValue, totalValue) => (100 * partialValue) / totalValue;
+const getPx = (partialValue, totalValue) => totalValue * (partialValue / 100);
 
 class Animation {
   constructor(options) {
