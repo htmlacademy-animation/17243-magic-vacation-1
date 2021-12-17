@@ -182,6 +182,9 @@ export const setActiveColor = (colorName, hue, saturation, lightness) => {
 
 export const pad = (value) => (`0` + Math.floor(value)).slice(-2);
 
+export const getPercentage = (partialValue, totalValue) => (100 * partialValue) / totalValue;
+export const getPx = (partialValue, totalValue) => totalValue * (partialValue / 100);
+
 export class Animation {
   constructor(options) {
     this.options = options;
