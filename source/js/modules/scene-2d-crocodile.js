@@ -77,10 +77,18 @@ const OBJECTS = Object.freeze({
     y: 56,
     size: 2.8,
     opacity: 0,
-    transforms: {
-      translateX: 1,
-      translateY: -10,
-    },
+    transforms: {},
+  },
+});
+
+const LOCALS = Object.freeze({
+  mask: {
+    startingPoint: [56.6, 64.2],
+    segments: [
+      [52, 40],
+      [24, 38],
+      [26, 65],
+    ],
   },
 });
 
@@ -91,22 +99,33 @@ export default class Scene2DCrocodile extends Scene2D {
     super({
       canvas,
       objects: OBJECTS,
+      locals: LOCALS,
       imagesUrls: IMAGES_URLS,
     });
 
-    this.drawCrocodileMask = () => {
+    this.initLocals();
+
+    this.drawMask = () => {
+      const s = this.size;
+
+      const {
+        mask: {startingPoint, segments},
+      } = this.locals;
+      const [startingPointX, startingPointY] = startingPoint;
+
       this.ctx.save();
       this.ctx.beginPath();
-      this.ctx.moveTo(720, 800);
-      this.ctx.lineTo(675, 550);
-      this.ctx.lineTo(350, 550);
-      this.ctx.lineTo(350, 915);
+      this.ctx.moveTo((startingPointX * s) / 100, (startingPointY * s) / 100);
+      segments.forEach((segment) => {
+        const [segmentX, segmentY] = segment;
+        this.ctx.lineTo((segmentX * s) / 100, (segmentY * s) / 100);
+      });
       this.ctx.closePath();
       this.ctx.clip();
     };
 
     this.afterInit = () => {
-      this.objects.crocodile.before = this.drawCrocodileMask;
+      this.objects.crocodile.before = this.drawMask;
       this.objects.crocodile.after = () => this.ctx.restore();
     };
 
@@ -114,6 +133,17 @@ export default class Scene2DCrocodile extends Scene2D {
     this.initObjects(OBJECTS);
     this.start();
     this.updateSize();
+  }
+
+  initLocals() {
+    const {startingPoint, segments} = LOCALS.mask;
+
+    this.locals = {
+      mask: {
+        startingPoint,
+        segments,
+      },
+    };
   }
 
   initEventListeners() {
@@ -146,8 +176,11 @@ export default class Scene2DCrocodile extends Scene2D {
         new Animation({
           func: (progress) => {
             this.objects.key.opacity = progress;
+            this.objects.key.transforms.scaleX = progress;
+            this.objects.key.transforms.scaleY = progress;
           },
-          duration: 500,
+          duration: 350,
+          easing: Easing.EASE_OUT_CUBIC,
         })
     );
   }
@@ -175,7 +208,7 @@ export default class Scene2DCrocodile extends Scene2D {
           },
           duration: 1500,
           delay: 750,
-          easing: Easing.EASE_OUT_CUBIC,
+          easing: Easing.EASE_OUT_QUAD,
         })
     );
   }
@@ -204,7 +237,7 @@ export default class Scene2DCrocodile extends Scene2D {
           },
           duration: 1250,
           delay: 750,
-          easing: Easing.EASE_OUT_CUBIC,
+          easing: Easing.EASE_OUT_QUAD,
         })
     );
   }
@@ -231,7 +264,7 @@ export default class Scene2DCrocodile extends Scene2D {
           },
           duration: 2000,
           delay: 750,
-          easing: Easing.EASE_OUT_CUBIC,
+          easing: Easing.EASE_OUT_QUAD,
         })
     );
   }
@@ -260,7 +293,7 @@ export default class Scene2DCrocodile extends Scene2D {
           },
           duration: 2000,
           delay: 750,
-          easing: Easing.EASE_OUT_CUBIC,
+          easing: Easing.EASE_OUT_QUAD,
         })
     );
   }
@@ -288,7 +321,7 @@ export default class Scene2DCrocodile extends Scene2D {
           },
           duration: 2000,
           delay: 750,
-          easing: Easing.EASE_OUT_CUBIC,
+          easing: Easing.EASE_OUT_QUAD,
         })
     );
   }
@@ -310,46 +343,38 @@ export default class Scene2DCrocodile extends Scene2D {
   initDropAnimations() {
     this.animations.push(
         new Animation({
+          func: (progress, details) => {
+            const timePassed = (details.currentTime - details.startTime) / 1000;
+            const FACTOR = 3;
+
+            this.objects.drop.transforms.scaleX = Math.min(
+                progress,
+                timePassed % FACTOR
+            );
+            this.objects.drop.transforms.scaleY = Math.min(
+                progress,
+                timePassed % FACTOR
+            );
+
+            this.objects.drop.opacity = timePassed % FACTOR;
+            this.objects.drop.transforms.translateX =
+            this.objects.drop.transforms.scaleX < progress
+              ? progress - (timePassed % FACTOR)
+              : 0;
+            this.objects.drop.transforms.translateY = timePassed % FACTOR;
+          },
+          duration: `infinite`,
+          delay: 1000,
+          easing: Easing.EASE_IN_EXPO,
+        })
+    );
+    this.animations.push(
+        new Animation({
           func: () => {
             this.objects.drop.opacity = 1;
           },
           duration: 0,
           delay: 1000,
-        })
-    );
-    this.animations.push(
-        new Animation({
-          func: (progress, details) => {
-            this.objects.drop.transforms.translateY =
-            progress -
-            Math.sin((2 * (details.currentTime - details.startTime)) / 1000);
-          },
-          duration: `infinite`,
-          delay: 0,
-        })
-    );
-    this.animations.push(
-        new Animation({
-          func: (progress, details) => {
-            this.objects.drop.opacity =
-            progress -
-            Math.sin((2 * (details.currentTime - details.startTime)) / 1000);
-          },
-          duration: `infinite`,
-          delay: 2550,
-        })
-    );
-    this.animations.push(
-        new Animation({
-          func: (progress, details) => {
-            this.objects.drop.transforms.scaleX =
-            Math.min(progress, progress - Math.sin(2 * (details.currentTime - details.startTime) / 1000));
-            this.objects.drop.transforms.scaleY =
-            Math.min(progress, progress - Math.sin(2 * (details.currentTime - details.startTime) / 1000));
-          },
-          duration: `infinite`,
-          delay: 0,
-
         })
     );
   }
